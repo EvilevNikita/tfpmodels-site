@@ -1,14 +1,15 @@
 :root {
   color-scheme: light;
-  --bg: #f6f1e8;
-  --surface: #fffdf8;
-  --surface-strong: #f0e3cf;
-  --text: #1f1a17;
-  --muted: #6b6258;
-  --line: #d9c7ae;
-  --accent: #a24c27;
-  --accent-dark: #7b3415;
-  --shadow: 0 18px 40px rgba(68, 44, 22, 0.08);
+  --bg: #f9f5ee;
+  --surface: #fffefb;
+  --surface-strong: #f6ede1;
+  --text: #211b18;
+  --muted: #6f655c;
+  --line: #e4d7c5;
+  --accent: #9f5631;
+  --accent-dark: #7f3e1c;
+  --shadow: 0 20px 48px rgba(90, 58, 30, 0.07);
+  --shadow-soft: 0 10px 24px rgba(90, 58, 30, 0.05);
 }
 
 * {
@@ -19,8 +20,9 @@ html {
   margin: 0;
   min-height: 100%;
   background:
-    radial-gradient(circle at top left, #fff7e5 0, transparent 28rem),
-    linear-gradient(180deg, #fbf6ee 0%, var(--bg) 100%);
+    radial-gradient(circle at top left, #fffdf6 0, transparent 24rem),
+    radial-gradient(circle at top right, #fff8ef 0, transparent 22rem),
+    linear-gradient(180deg, #fdfaf5 0%, var(--bg) 100%);
 }
 
 body {
@@ -28,6 +30,8 @@ body {
   min-height: 100%;
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -37,12 +41,12 @@ a {
 .site-shell {
   width: min(1120px, calc(100% - 2rem));
   margin: 0 auto;
-  padding: 2rem 0 4rem;
+  padding: 2.5rem 0 4.5rem;
 }
 
 .hero,
 .page-header {
-  padding: 2rem 0 1.5rem;
+  padding: 2.5rem 0 1.75rem;
 }
 
 .hero__badge,
@@ -53,7 +57,7 @@ a {
   padding: 0.45rem 0.8rem;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(255, 253, 248, 0.8);
+  background: rgba(255, 254, 251, 0.88);
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 600;
@@ -64,8 +68,8 @@ a {
 h1 {
   max-width: 12ch;
   margin: 1rem 0 0;
-  font-size: clamp(2.5rem, 6vw, 5.2rem);
-  line-height: 0.95;
+  font-size: clamp(2.7rem, 6vw, 5.4rem);
+  line-height: 0.92;
   letter-spacing: -0.04em;
 }
 
@@ -78,7 +82,7 @@ h2 {
 p,
 li {
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--muted);
 }
 
@@ -86,7 +90,7 @@ li {
 .page-subtitle {
   max-width: 42rem;
   margin: 1.25rem 0 0;
-  font-size: 1.08rem;
+  font-size: 1.1rem;
 }
 
 .hero__actions {
@@ -101,12 +105,12 @@ li {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.95rem 1.25rem;
+  padding: 0.95rem 1.3rem;
   border-radius: 999px;
   border: 1px solid var(--line);
   text-decoration: none;
   font-weight: 600;
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background-color 180ms ease;
 }
 
 .button:hover,
@@ -116,8 +120,8 @@ li {
 }
 
 .button--primary {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: linear-gradient(180deg, #af6440 0%, var(--accent) 100%);
+  border-color: #a85c37;
   color: #fff;
 }
 
@@ -125,13 +129,14 @@ li {
 .back-link {
   background: var(--surface);
   color: var(--text);
+  box-shadow: var(--shadow-soft);
 }
 
 .content-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 1.5rem;
+  gap: 1.15rem;
+  margin-top: 1.75rem;
 }
 
 .content-grid--single {
@@ -141,7 +146,7 @@ li {
 
 .card,
 .legal-card {
-  padding: 1.5rem;
+  padding: 1.65rem;
   border: 1px solid var(--line);
   border-radius: 1.75rem;
   background: var(--surface);
@@ -150,9 +155,9 @@ li {
 
 .legal-layout {
   display: grid;
-  gap: 1rem;
+  gap: 1.1rem;
   max-width: 56rem;
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
 }
 
 .feature-list,
