@@ -16,10 +16,65 @@
     <header class="page-header">
       <a class="back-link" href="./">Back to home</a>
       <h1>Support</h1>
-      <p class="page-subtitle">Official support for account issues, bug reports, feedback, and privacy requests.</p>
+      <p class="page-subtitle">Official support for TFP Models account issues, bug reports, feedback, and privacy requests.</p>
+      <nav class="hero__actions" aria-label="Deletion requests">
+        <a class="button button--secondary" href="#delete-account">Delete your account</a>
+        <a class="button button--secondary" href="#delete-data">Delete specific data</a>
+      </nav>
     </header>
 
     <main class="content-grid content-grid--single">
+      <section class="card" id="delete-account" aria-labelledby="delete-account-title">
+        <span class="card__eyebrow">Account deletion</span>
+        <h2 id="delete-account-title">Delete your TFP Models account and associated data</h2>
+        <h3>Request deletion by email</h3>
+        <ol>
+          <li>Email <a href="mailto:support@tfpmodels.org?subject=Privacy%20Request%20-%20Delete%20account">support@tfpmodels.org</a> with the subject <strong>Privacy Request - Delete account</strong>.</li>
+          <li>State that you want to delete your TFP Models account and its associated data. Include your profile name, the email linked to the account, and whether you sign in with email, Google, or Apple. You do not need to reinstall the app to send a request.</li>
+          <li>Never send your password, sign-in codes, or recovery codes.</li>
+        </ol>
+        <p>A TFP Models administrator handles email requests manually. To verify ownership, the administrator sends a confirmation to the email linked to your account; reply to that message to confirm the request. A profile name or public profile information alone is not proof of ownership. If you use Apple Hide My Email, mention this so the administrator can use your linked relay address. If you cannot receive messages at your linked address, explain this in your request so an alternative verification method can be arranged before any deletion.</p>
+        <p>The administrator confirms the deletion schedule and cancellation instructions after verifying ownership. Sending an email does not automatically start the in-app 7-day timer. There is currently no fixed email-response deadline; do not assume your account has been deleted until the administrator confirms completion.</p>
+        <h3>Delete from the Android or iOS app</h3>
+        <ol>
+          <li>Open your profile, then Settings, account management, and Delete account. Labels may vary with the app language.</li>
+          <li>Follow the on-screen identity confirmation and confirm the deletion request.</li>
+          <li>The app schedules deletion for 7 days after the request. Signing back in before the deletion is carried out cancels the pending request.</li>
+        </ol>
+        <p>The server checks for due requests every hour. The scheduled date is not a guarantee that every copy in every system disappears at that exact moment. The 7-day delay and sign-in cancellation above describe requests made in the app.</p>
+        <h3>What account deletion removes</h3>
+        <p>Account deletion removes your TFP Models sign-in account and profile, including contact and profile information; uploaded profile and casting-reference images; castings you created; casting applications linked to you as applicant or author; conversations you participate in and their messages; and associated in-app support requests, user reports, blocks, agreement records, and device registrations stored under your profile.</p>
+        <p>Completed account deletion cannot be undone. Deleting your TFP Models account does not delete your separate Google or Apple account.</p>
+        <p>See <a href="#retention">data retention and copies</a> below and our <a href="./privacy.html#retention">Privacy Policy</a>.</p>
+      </section>
+
+      <section class="card" id="delete-data" aria-labelledby="delete-data-title">
+        <span class="card__eyebrow">Keep your account</span>
+        <h2 id="delete-data-title">Delete specific data without deleting your account</h2>
+        <h3>Remove a gallery photo in the app</h3>
+        <p>Open your own profile in the Android or iOS app, select a gallery photo, and choose the delete-photo action. This removes that photo while keeping your account. The profile avatar has a separate replacement action.</p>
+        <h3>Request specific data deletion by email</h3>
+        <ol>
+          <li>Email <a href="mailto:support@tfpmodels.org?subject=Privacy%20Request%20-%20Delete%20specific%20data">support@tfpmodels.org</a> with the subject <strong>Privacy Request - Delete specific data</strong>.</li>
+          <li>Include your profile name, the email linked to the account, and your sign-in method. State <strong>Keep my account</strong> and identify the specific items you want removed. For a photo, describe which gallery image it is; do not send unrelated private content.</li>
+          <li>Never send your password, sign-in codes, or recovery codes.</li>
+        </ol>
+        <p>The administrator can remove your identified profile photos while keeping your account. Ownership is checked using the email-confirmation process above. Photo removal is carried out when the verified request is processed; sending the email does not remove the photo automatically. There is currently no fixed email-response deadline.</p>
+        <h3>Update your profile information</h3>
+        <p>You can edit your profile in the app, replace information, or clear optional fields and save. The saved changes update your current profile without deleting your account. Required fields cannot be left empty. This does not mean that older information has been erased from every log, backup, or copy already received by another person.</p>
+        <h3>What happens when you delete a chat</h3>
+        <p>The delete-chat action hides the conversation from the active chat list; it does not erase its messages from the server. Chat history is retained for moderation and investigating abusive behavior. There is currently no automatic 7-day purge or fixed retention period for these hidden chats. The photo-deletion service above does not include permanent deletion of individual chat messages. Account deletion removes the associated conversations and messages as described above.</p>
+      </section>
+
+      <section class="card" id="retention" aria-labelledby="retention-title">
+        <span class="card__eyebrow">Data retention</span>
+        <h2 id="retention-title">Retained data and other copies</h2>
+        <p>The account-deletion process removes the account records and uploaded images described above from the app's active Firebase database, authentication service, and storage. It does not itself erase support emails, analytics records, service logs, or provider backups.</p>
+        <p>Support emails are handled separately from in-app support requests and are not automatically erased by account deletion. A fixed retention period for support email has not yet been established. If your request includes correspondence with support, identify it in your email.</p>
+        <p>Google Analytics for Firebase processes usage events separately from the account database. Account deletion does not currently trigger deletion of those analytics records. The exact configured retention periods for analytics, service logs, and provider backup copies have not yet been verified; we cannot promise that they are erased within 7 days. See <a href="https://firebase.google.com/support/privacy">Firebase privacy information</a> and <a href="https://support.google.com/analytics/answer/7667196?hl=en">Google Analytics retention information</a> for the providers' controls and policies.</p>
+        <p>For a request involving these records, contact the administrator at <a href="mailto:support@tfpmodels.org?subject=Privacy%20Request">support@tfpmodels.org</a> to identify the data and discuss the applicable deletion options. Copies independently saved by other people, such as screenshots, are outside this account-deletion process.</p>
+      </section>
+
       <section class="card">
         <span class="card__eyebrow">Contact</span>
         <h2>Contact the TFP Models team</h2>
@@ -37,7 +92,7 @@
         <span class="card__eyebrow">Recommended details</span>
         <h2>Helpful information to include</h2>
         <ul class="feature-list">
-          <li>Your device model and iOS version</li>
+          <li>Your device model and Android or iOS version</li>
           <li>The app version you are using</li>
           <li>A short description of the issue</li>
           <li>Screenshots if they help explain the problem</li>
