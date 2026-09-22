@@ -3,6 +3,8 @@
 .language-picker { position: relative; }
 .language-picker summary { display: flex; align-items: center; justify-content: space-between; gap: .75rem; min-height: 44px; padding: .55rem .9rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; list-style: none; }
 .language-picker summary::-webkit-details-marker { display: none; }
+.language-chevron { display: block; flex: 0 0 14px; color: var(--muted); }
+.language-picker[open] .language-chevron { transform: rotate(180deg); }
 .language-nav { position: absolute; top: calc(100% + .5rem); right: 0; z-index: 2; min-width: 10rem; display: grid; gap: .2rem; padding: .4rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface); box-shadow: var(--shadow); }
 .language-nav a { display: block; padding: .65rem .85rem; border-radius: .65rem; text-decoration: none; }
 .language-nav a:hover { background: var(--surface-strong); }
