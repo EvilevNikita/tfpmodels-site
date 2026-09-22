@@ -12,7 +12,19 @@
     const section = document.querySelector(`.translation[lang="${language}"]`);
     document.title = section.querySelector('h1').textContent;
     document.querySelector('meta[name="description"]').content = section.querySelector('.page-subtitle').textContent;
-    document.querySelector(`[data-lang="${language}"]`).setAttribute('aria-current', 'page');
+    const activeLink = document.querySelector(`[data-lang="${language}"]`);
+    activeLink.setAttribute('aria-current', 'page');
+    document.querySelector('.language-current').textContent = activeLink.textContent;
+    const picker = document.querySelector('.language-picker');
+    document.addEventListener('click', event => {
+      if (!picker.contains(event.target)) picker.open = false;
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && picker.open) {
+        picker.open = false;
+        picker.querySelector('summary').focus();
+      }
+    });
     document.querySelector('.language-nav').setAttribute('aria-label', {
       ru: 'Язык', en: 'Language', de: 'Sprache', ja: '言語'
     }[language]);
