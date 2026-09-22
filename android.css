@@ -1,0 +1,25 @@
+.install-shell { max-width: 760px; padding-top: 1.5rem; }
+.language-nav { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.25rem 0; }
+.language-nav a { padding: .55rem .85rem; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; background: var(--surface); }
+.language-nav a[aria-current="page"] { background: var(--text); color: var(--surface); border-color: var(--text); }
+.install-header { padding: 1rem 0 1.75rem; }
+.install-header h1 { max-width: 20ch; font-size: clamp(2.2rem, 7vw, 3.8rem); line-height: 1.08; overflow-wrap: anywhere; }
+.install-header p { max-width: 42rem; }
+.install-note { padding: 1.15rem 1.4rem; border-left: 3px solid var(--accent); background: var(--surface-strong); border-radius: 0 1rem 1rem 0; margin-bottom: 1.25rem; }
+.install-note h2 { margin: 0; font-size: 1.1rem; }
+.install-note p { margin: .5rem 0 0; }
+.install-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; counter-reset: steps; }
+.install-steps li { counter-increment: steps; }
+.install-steps h2 { display: flex; align-items: baseline; gap: .7rem; margin: 0; color: var(--text); line-height: 1.3; }
+.install-steps h2::before { content: counter(steps); flex: 0 0 2rem; text-align: center; border-radius: 50%; background: var(--surface-strong); color: var(--accent-dark); font-size: 1.1rem; line-height: 2rem; }
+.install-steps .button { text-align: center; line-height: 1.4; }
+.install-help { margin: 1.75rem 0; }
+.install-help a { overflow-wrap: anywhere; }
+a:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+html[data-language] .translation { display: none; }
+html[data-language="ru"] .translation[lang="ru"],
+html[data-language="en"] .translation[lang="en"],
+html[data-language="de"] .translation[lang="de"],
+html[data-language="ja"] .translation[lang="ja"] { display: block; }
+@media (max-width: 480px) { .install-steps .button { width: 100%; } .install-steps.card, .install-steps .card { padding: 1.25rem; } }
+@media (prefers-reduced-motion: reduce) { .button { transition: none; } }
