@@ -1,0 +1,48 @@
+.analytics-footer {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto 2rem;
+}
+
+.analytics-footer button {
+  padding: 0.75rem 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.analytics-banner {
+  position: fixed;
+  z-index: 100;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.analytics-banner[hidden] { display: none; }
+.analytics-banner p { margin: 0 0 0.75rem; font-size: 0.9rem; line-height: 1.5; }
+.analytics-banner__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.analytics-banner__actions button {
+  flex: 1;
+  min-height: 44px;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.analytics-banner button:hover { background: var(--surface-strong); }
+.analytics-banner button:focus-visible,
+.analytics-footer button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
