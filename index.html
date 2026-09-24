@@ -10,18 +10,27 @@
     content="TFP Models is a mobile app for models, photographers, and creators. Get the app for iPhone or Android to connect, find castings, and chat."
   >
   <link rel="canonical" href="https://www.tfpmodels.org/">
-  <link rel="stylesheet" href="./styles.css?v=20260924-downloads">
+  <link rel="alternate" hreflang="en" href="https://www.tfpmodels.org/">
+  <link rel="alternate" hreflang="ru" href="https://www.tfpmodels.org/ru/">
+  <link rel="alternate" hreflang="x-default" href="https://www.tfpmodels.org/">
+  <link rel="stylesheet" href="/styles.css?v=20260924-languages">
 
   <link rel="icon" type="image/png" sizes="256x256" href="/favicon.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="stylesheet" href="/analytics.css">
-  <script defer src="/analytics.js"></script>
+  <script defer src="/analytics.js?v=20260924-languages"></script>
 </head>
 <body>
   <div class="site-shell">
     <header class="hero">
       <div class="hero__topbar">
-        <div class="hero__badge">TFP Models</div>
+        <div class="hero__identity">
+          <div class="hero__badge">TFP Models</div>
+          <nav class="site-languages" aria-label="Language">
+            <a href="/" lang="en" hreflang="en" aria-current="page">English</a>
+            <a href="/ru/" lang="ru" hreflang="ru">Русский</a>
+          </nav>
+        </div>
         <nav class="hero__downloads" aria-label="Get the app">
           <a class="button button--download" href="https://apps.apple.com/app/tfp-models/id6766621647">
             <svg class="download-icon" width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
@@ -80,6 +89,20 @@
         </ul>
       </section>
     </main>
+
+    <section class="card home-about" aria-labelledby="tfp-shoots">
+      <h2 id="tfp-shoots">Find a team for TFP shoots.</h2>
+      <p>
+        TFP (Time for Print) is a way for models and photographers to collaborate
+        on photos for their portfolios. Agree on the shoot's concept, terms,
+        and use of the photos with your team beforehand.
+      </p>
+      <p>
+        Use the TFP Models mobile app to browse creator profiles, find models
+        and photographers, explore castings, and discuss shoots in chat.
+        Download it for iPhone or follow our Android installation guide.
+      </p>
+    </section>
   </div>
 </body>
 </html>

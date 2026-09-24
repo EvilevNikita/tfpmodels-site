@@ -27,15 +27,25 @@
     document.head.append(script);
   }
 
+  const copy = document.documentElement.lang === 'ru' ? {
+    label: 'Аналитика сайта',
+    question: 'Разрешить cookies аналитики, чтобы мы могли считать посещения и переходы к скачиванию приложения?',
+    privacy: 'О конфиденциальности (на английском)',
+    decline: 'Нет, спасибо', accept: 'Разрешить', settings: 'Настройки аналитики'
+  } : {
+    label: 'Website analytics',
+    question: 'Allow analytics cookies to help us understand visits and app download clicks?',
+    privacy: 'Privacy details', decline: 'No thanks', accept: 'Allow analytics', settings: 'Analytics settings'
+  };
   const banner = document.createElement('section');
   banner.className = 'analytics-banner';
-  banner.setAttribute('aria-label', 'Website analytics');
+  banner.setAttribute('aria-label', copy.label);
   banner.innerHTML = `
-    <p>Allow analytics cookies to help us understand visits and app download clicks?
-      <a href="/privacy.html#website-analytics">Privacy details</a></p>
+    <p>${copy.question}
+      <a href="/privacy.html#website-analytics">${copy.privacy}</a></p>
     <div class="analytics-banner__actions">
-      <button type="button" data-consent="denied">No thanks</button>
-      <button type="button" data-consent="granted">Allow analytics</button>
+      <button type="button" data-consent="denied">${copy.decline}</button>
+      <button type="button" data-consent="granted">${copy.accept}</button>
     </div>`;
   banner.hidden = choice === 'granted' || choice === 'denied';
 
@@ -43,7 +53,7 @@
   footer.className = 'analytics-footer';
   const settings = document.createElement('button');
   settings.type = 'button';
-  settings.textContent = 'Analytics settings';
+  settings.textContent = copy.settings;
   settings.addEventListener('click', () => {
     banner.hidden = false;
     banner.querySelector('button').focus();

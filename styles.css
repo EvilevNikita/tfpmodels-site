@@ -115,6 +115,42 @@ li {
   gap: 0.75rem;
 }
 
+.hero__identity {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.site-languages {
+  display: flex;
+  gap: 0.85rem;
+  font-size: 0.875rem;
+}
+
+.site-languages a {
+  padding: 0.6rem 0;
+  text-underline-offset: 0.2em;
+}
+
+.site-languages a[aria-current="page"] {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-about {
+  margin-top: 1.15rem;
+}
+
+.home-about p { max-width: 64rem; }
+
+html[lang="ru"] .hero h1 {
+  max-width: 18ch;
+  font-size: clamp(2.1rem, 6vw, 4.8rem);
+  line-height: 1.05;
+}
+
 .button,
 .back-link {
   display: inline-flex;
