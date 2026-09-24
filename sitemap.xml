@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.tfpmodels.org/</loc></url>
+  <url><loc>https://www.tfpmodels.org/de/</loc></url>
+  <url><loc>https://www.tfpmodels.org/es/</loc></url>
+  <url><loc>https://www.tfpmodels.org/fr/</loc></url>
+  <url><loc>https://www.tfpmodels.org/it/</loc></url>
+  <url><loc>https://www.tfpmodels.org/ja/</loc></url>
+  <url><loc>https://www.tfpmodels.org/ko/</loc></url>
+  <url><loc>https://www.tfpmodels.org/pl/</loc></url>
+  <url><loc>https://www.tfpmodels.org/pt-br/</loc></url>
   <url><loc>https://www.tfpmodels.org/ru/</loc></url>
   <url><loc>https://www.tfpmodels.org/privacy.html</loc></url>
   <url><loc>https://www.tfpmodels.org/support.html</loc></url>

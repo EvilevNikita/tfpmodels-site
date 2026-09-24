@@ -122,22 +122,16 @@ li {
   gap: 1rem;
 }
 
-.site-languages {
-  display: flex;
-  gap: 0.85rem;
-  font-size: 0.875rem;
-}
-
-.site-languages a {
-  padding: 0.6rem 0;
-  text-underline-offset: 0.2em;
-}
-
-.site-languages a[aria-current="page"] {
-  color: var(--text);
-  font-weight: 600;
-  text-decoration: none;
-}
+.language-picker { position: relative; }
+.language-picker summary { display: flex; align-items: center; justify-content: space-between; gap: .75rem; min-height: 44px; padding: .55rem .9rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; list-style: none; }
+.language-picker summary::-webkit-details-marker { display: none; }
+.language-chevron { display: block; flex: 0 0 14px; color: var(--muted); }
+.language-picker[open] .language-chevron { transform: rotate(180deg); }
+.language-nav { position: absolute; top: calc(100% + .5rem); right: 0; z-index: 2; min-width: 10rem; display: grid; gap: .2rem; padding: .4rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface); box-shadow: var(--shadow); }
+.language-nav a { display: block; padding: .65rem .85rem; border-radius: .65rem; text-decoration: none; }
+.language-nav a:hover { background: var(--surface-strong); }
+.language-nav a[aria-current="page"] { background: var(--text); color: var(--surface); }
+.language-picker summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 
 .home-about {
   margin-top: 1.15rem;
@@ -145,7 +139,7 @@ li {
 
 .home-about p { max-width: 64rem; }
 
-html[lang="ru"] .hero h1 {
+.home-page:not(:lang(en)) .hero h1 {
   max-width: 18ch;
   font-size: clamp(2.1rem, 6vw, 4.8rem);
   line-height: 1.05;
@@ -275,4 +269,15 @@ html[lang="ru"] .hero h1 {
   h1 {
     max-width: 10ch;
   }
+}
+
+.language-picker { min-width: 0; max-width: 100%; font-size: 0.875rem; }
+.language-nav { max-height: min(60vh, 26rem); overflow-y: auto; min-width: 12rem; max-width: calc(100vw - 2rem); }
+.language-nav a { white-space: nowrap; }
+.home-page .hero__identity { min-width: 0; }
+.home-page .card, .home-about { overflow-wrap: anywhere; }
+.home-page .hero h1 { overflow-wrap: anywhere; }
+@media (max-width: 540px) {
+  .home-page .hero__identity { width: 100%; justify-content: space-between; gap: 0.5rem; }
+  .language-picker summary { padding: 0.55rem 0.65rem; gap: 0.4rem; }
 }

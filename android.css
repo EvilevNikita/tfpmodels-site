@@ -1,15 +1,5 @@
 .install-shell { max-width: 760px; padding-top: 1.5rem; }
-.install-topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
-.language-picker { position: relative; }
-.language-picker summary { display: flex; align-items: center; justify-content: space-between; gap: .75rem; min-height: 44px; padding: .55rem .9rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer; list-style: none; }
-.language-picker summary::-webkit-details-marker { display: none; }
-.language-chevron { display: block; flex: 0 0 14px; color: var(--muted); }
-.language-picker[open] .language-chevron { transform: rotate(180deg); }
-.language-nav { position: absolute; top: calc(100% + .5rem); right: 0; z-index: 2; min-width: 10rem; display: grid; gap: .2rem; padding: .4rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface); box-shadow: var(--shadow); }
-.language-nav a { display: block; padding: .65rem .85rem; border-radius: .65rem; text-decoration: none; }
-.language-nav a:hover { background: var(--surface-strong); }
-.language-nav a[aria-current="page"] { background: var(--text); color: var(--surface); }
-.language-picker summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+.install-topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
 .install-header { padding: 1rem 0 1.75rem; }
 .install-header h1 { max-width: 20ch; font-size: clamp(2.2rem, 7vw, 3.8rem); line-height: 1.08; overflow-wrap: anywhere; }
 .install-header p { max-width: 42rem; }
@@ -25,9 +15,6 @@
 .install-help a { overflow-wrap: anywhere; }
 a:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 html[data-language] .translation { display: none; }
-html[data-language="ru"] .translation[lang="ru"],
-html[data-language="en"] .translation[lang="en"],
-html[data-language="de"] .translation[lang="de"],
-html[data-language="ja"] .translation[lang="ja"] { display: block; }
+html[data-language] .translation.is-active { display: block; }
 @media (max-width: 480px) { .install-steps .button { width: 100%; } .install-steps.card, .install-steps .card { padding: 1.25rem; } }
 @media (prefers-reduced-motion: reduce) { .button { transition: none; } }

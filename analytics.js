@@ -27,16 +27,7 @@
     document.head.append(script);
   }
 
-  const copy = document.documentElement.lang === 'ru' ? {
-    label: 'Аналитика сайта',
-    question: 'Разрешить cookies аналитики, чтобы мы могли считать посещения и переходы к скачиванию приложения?',
-    privacy: 'О конфиденциальности (на английском)',
-    decline: 'Нет, спасибо', accept: 'Разрешить', settings: 'Настройки аналитики'
-  } : {
-    label: 'Website analytics',
-    question: 'Allow analytics cookies to help us understand visits and app download clicks?',
-    privacy: 'Privacy details', decline: 'No thanks', accept: 'Allow analytics', settings: 'Analytics settings'
-  };
+  const copy = (window.TFP_LOCALES[document.documentElement.lang] || window.TFP_LOCALES.en).consent;
   const banner = document.createElement('section');
   banner.className = 'analytics-banner';
   banner.setAttribute('aria-label', copy.label);
