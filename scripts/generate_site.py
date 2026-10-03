@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """Generate the ten static homepages, Android guide, and language metadata."""
+import argparse
 import json
 from html import escape
 from pathlib import Path
 from string import Template
 
 ROOT = Path(__file__).resolve().parents[1]
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--output', type=Path, default=ROOT, help='Destination directory; source templates remain in website/.')
+OUTPUT = parser.parse_args().output.resolve()
+OUTPUT.mkdir(parents=True, exist_ok=True)
 BASE = 'https://www.tfpmodels.org'
 CODES = ['en', 'de', 'es', 'fr', 'it', 'ja', 'ko', 'pl', 'pt-BR', 'ru']
 LOCALES = json.loads((ROOT / 'content/locales.json').read_text())
@@ -40,7 +45,7 @@ for code in CODES:
     links += [f'<link rel="alternate" hreflang="{other}" href="{BASE}{home_path(other)}">' for other in CODES]
     links += [f'<link rel="alternate" hreflang="x-default" href="{BASE}/">']
     values.update(code=code, seo_links='\n  '.join(links), picker=picker(code))
-    output = ROOT / home_path(code).lstrip('/') / 'index.html'
+    output = OUTPUT / home_path(code).lstrip('/') / 'index.html'
     output.parent.mkdir(exist_ok=True)
     output.write_text(home_template.substitute(values))
 
@@ -81,15 +86,15 @@ for code in CODES:
         </section>
       </article>''')
 android_template = Template((ROOT / 'templates/android.html').read_text())
-(ROOT / 'android.html').write_text(android_template.substitute(picker=picker('en', android=True), articles='\n'.join(articles)))
+(OUTPUT / 'android.html').write_text(android_template.substitute(picker=picker('en', android=True), articles='\n'.join(articles)))
 
 client_locales = {code: {key: LOCALES[code][key] for key in ['name', 'language', 'consent']} for code in CODES}
 runtime = (ROOT / 'templates/languages.js').read_text().replace('__LOCALES__', json.dumps(client_locales, ensure_ascii=False, indent=2))
-(ROOT / 'languages.js').write_text(runtime)
+(OUTPUT / 'languages.js').write_text(runtime)
 
 urls = [BASE + home_path(code) for code in CODES]
 urls += [f'{BASE}/{page}.html' for page in ['privacy', 'support', 'community-guidelines']]
 sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 sitemap += '\n'.join(f'  <url><loc>{escape(url)}</loc></url>' for url in urls)
-(ROOT / 'sitemap.xml').write_text(sitemap + '\n</urlset>\n')
+(OUTPUT / 'sitemap.xml').write_text(sitemap + '\n</urlset>\n')
 print(f'Generated {len(CODES)} homepages and Android translations, shared language controls, and sitemap.')
