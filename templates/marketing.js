@@ -16,26 +16,33 @@
   const ua = navigator.userAgent || '';
   const preview = /bot|crawler|spider|facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|TelegramBot/i.test(ua);
   const entry = location.pathname === '/' || location.pathname === '/index.html';
+  // Embedded iOS browsers can block an automatic store handoff and show a
+  // blank webview. Keep the download page there and use the visitor's tap.
+  const iphone = /iPhone|iPod/i.test(ua);
+  let socialReferrer = false;
+  try {
+    socialReferrer = /(^|\.)(threads\.net|threads\.com|instagram\.com|facebook\.com|tiktok\.com)$/.test(new URL(document.referrer).hostname);
+  } catch (_) { /* A direct visit has no referrer. */ }
+  const embedded = /Instagram|Barcelona|Threads|FBAN|FBAV|TikTok|Bytedance|Line\/|Pinterest|Snapchat/i.test(ua)
+    || (iphone && (!/Safari|CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua) || socialReferrer));
+  let destination;
   if (entry && params.get('stay') !== '1' && !preview) {
-    if (/iPhone|iPod/i.test(ua)) {
-      location.replace('https://apps.apple.com/app/tfp-models/id6766621647');
-      return;
-    }
-    if (/Android/i.test(ua) || navigator.userAgentData?.platform === 'Android') {
+    if (iphone && !embedded) {
+      destination = 'https://apps.apple.com/app/tfp-models/id6766621647';
+    } else if (/Android/i.test(ua) || navigator.userAgentData?.platform === 'Android') {
       const target = new URL('/android.html', location.href);
       target.searchParams.set('lang', language);
       for (const key of campaignKeys) {
         if (params.has(key)) target.searchParams.set(key, params.get(key));
       }
       target.hash = language;
-      location.replace(target.href);
-      return;
+      destination = target.href;
     }
   }
 
   // Keep campaign attribution when users choose Android or change language.
   // Store URLs are left untouched: Apple uses its own campaign parameters.
-  document.addEventListener('DOMContentLoaded', () => {
+  function start() {
     for (const link of document.querySelectorAll('a[href]')) {
       const url = new URL(link.href, location.href);
       if (url.origin !== location.origin) continue;
@@ -47,5 +54,22 @@
       }
       link.href = url.href;
     }
-  });
+    if (!destination) return;
+    let interacted = false;
+    document.addEventListener('pointerdown', () => { interacted = true; }, { once: true });
+    document.addEventListener('keydown', () => { interacted = true; }, { once: true });
+    // Two frames allow a complete paint before any navigation starts. The
+    // short delay keeps the information and manual buttons visible first.
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      setTimeout(() => {
+        if (interacted) return;
+        try { location.replace(destination); } catch (_) { /* Manual buttons remain available. */ }
+      }, 250);
+    }));
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, { once: true });
+  } else {
+    start();
+  }
 })();

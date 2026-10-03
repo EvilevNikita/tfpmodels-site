@@ -2,62 +2,100 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
-
 const source = fs.readFileSync(path.join(__dirname, '../templates/marketing.js'), 'utf8');
-function visit({ ua = '', url = 'https://tfpmodels.app/', languages = ['en'], platform } = {}) {
+const safari = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1';
+const apple = 'https://apps.apple.com/app/tfp-models/id6766621647';
+
+function visit({ ua = '', url = 'https://tfpmodels.app/', languages = ['en'], platform, links = [], blocked = false, referrer = '' } = {}) {
   const parsed = new URL(url);
   let destination;
+  let attempts = 0;
   const listeners = {};
+  const frames = [];
+  const timers = [];
   vm.runInNewContext(source, {
     URL, URLSearchParams,
     location: {
       hostname: parsed.hostname, pathname: parsed.pathname, search: parsed.search,
       href: parsed.href, origin: parsed.origin,
-      replace: value => { destination = value; },
+      replace: value => {
+        attempts++;
+        if (blocked) throw new Error('External navigation blocked');
+        destination = value;
+      },
     },
     navigator: { userAgent: ua, languages, userAgentData: { platform } },
-    document: { addEventListener: (name, callback) => { listeners[name] = callback; } },
+    document: {
+      readyState: 'loading',
+      referrer,
+      addEventListener: (name, callback) => { listeners[name] = callback; },
+      querySelectorAll: () => links,
+    },
+    requestAnimationFrame: callback => { frames.push(callback); },
+    setTimeout: (callback, delay) => { timers.push({ callback, delay }); },
   });
-  return { destination, listeners };
+  const result = {
+    get destination() { return destination; },
+    get attempts() { return attempts; },
+    frames, timers, listeners,
+    ready: () => listeners.DOMContentLoaded?.(),
+    paint: () => frames.shift()?.(),
+    tick: () => timers.shift()?.callback(),
+    interact: () => listeners.pointerdown?.(),
+    finish() { this.ready(); this.paint(); this.paint(); this.tick(); return this; },
+  };
+  return result;
 }
 
-const apple = 'https://apps.apple.com/app/tfp-models/id6766621647';
-assert.equal(visit({ ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X)' }).destination, apple);
-assert.equal(visit({ ua: 'Mozilla/5.0 (Linux; Android 16) Chrome/143.0 Mobile', languages: ['ru-RU'] }).destination,
+const normal = visit({ ua: safari });
+assert.equal(normal.destination, undefined, 'Navigation must not start while HTML is parsing');
+normal.ready();
+assert.equal(normal.destination, undefined, 'Information and links must load first');
+normal.paint();
+assert.equal(normal.timers.length, 0, 'Allow the first paint before scheduling navigation');
+normal.paint();
+assert.equal(normal.destination, undefined);
+assert.equal(normal.timers[0].delay, 250);
+normal.tick();
+assert.equal(normal.destination, apple);
+for (const ua of [safari + ' Barcelona 400.0', safari + ' Threads 400.0', safari + ' Instagram 400.0', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148']) {
+  const embedded = visit({ ua }).finish();
+  assert.equal(embedded.attempts, 0, 'Embedded iPhone browsers must retain the download page');
+}
+const chosen = visit({ ua: safari });
+assert.equal(visit({ ua: safari, referrer: 'https://l.threads.net/' }).finish().attempts, 0, 'Social referrals with Safari-like user agents must retain the page');
+chosen.ready(); chosen.interact(); chosen.paint(); chosen.paint(); chosen.tick();
+assert.equal(chosen.attempts, 0, 'Manual interaction must cancel automatic navigation');
+const denied = visit({ ua: safari, blocked: true }).finish();
+assert.equal(denied.attempts, 1);
+assert.equal(denied.destination, undefined, 'Blocked navigation must not crash the loaded page');
+assert.equal(visit({ ua: 'Mozilla/5.0 (Linux; Android 16) Chrome/143.0 Mobile', languages: ['ru-RU'] }).finish().destination,
   'https://tfpmodels.app/android.html?lang=ru#ru');
-assert.equal(visit({ platform: 'Android', languages: ['pt-PT'] }).destination,
+assert.equal(visit({ ua: 'Android Threads', languages: ['ru'] }).finish().destination,
+  'https://tfpmodels.app/android.html?lang=ru#ru');
+assert.equal(visit({ platform: 'Android', languages: ['pt-PT'] }).finish().destination,
   'https://tfpmodels.app/android.html?lang=pt-BR#pt-BR');
-const campaign = visit({ ua: 'Android', languages: ['de'], url: 'https://tfpmodels.app/?lang=ru&utm_source=instagram&utm_campaign=fall%20launch&redirect=https://evil.example' });
-const destination = new URL(campaign.destination);
+const destination = new URL(visit({ ua: 'Android', languages: ['de'], url: 'https://tfpmodels.app/?lang=ru&utm_source=instagram&utm_campaign=fall%20launch&redirect=https://evil.example' }).finish().destination);
 assert.equal(destination.pathname, '/android.html');
 assert.equal(destination.searchParams.get('lang'), 'ru');
 assert.equal(destination.searchParams.get('utm_source'), 'instagram');
 assert.equal(destination.searchParams.get('utm_campaign'), 'fall launch');
 assert.equal(destination.searchParams.has('redirect'), false);
-assert.equal(visit({ ua: 'Android', languages: ['zh-CN'] }).destination, 'https://tfpmodels.app/android.html?lang=en#en');
+assert.equal(visit({ ua: 'Android', languages: ['zh-CN'] }).finish().destination, 'https://tfpmodels.app/android.html?lang=en#en');
 for (const ua of ['', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', 'Mozilla/5.0 (iPad; CPU OS 18_0)', 'facebookexternalhit/1.1 iPhone', 'Twitterbot Android']) {
-  assert.equal(visit({ ua }).destination, undefined);
+  assert.equal(visit({ ua }).finish().attempts, 0);
 }
 for (const url of ['https://www.tfpmodels.org/', 'https://tfpmodels.app/?stay=1', 'https://tfpmodels.app/about.html', 'https://tfpmodels.app/android.html', 'https://tfpmodels.app/ru/']) {
-  assert.equal(visit({ ua: 'iPhone', url }).destination, undefined);
+  assert.equal(visit({ ua: safari, url }).finish().attempts, 0);
 }
-assert.equal(visit({ ua: 'iPhone', url: 'https://www.tfpmodels.app/index.html' }).destination, apple);
-
+assert.equal(visit({ ua: safari, url: 'https://www.tfpmodels.app/index.html' }).finish().destination, apple);
 const links = [
   { href: 'https://tfpmodels.app/android.html?lang=en#en', matches: () => false },
   { href: 'https://tfpmodels.app/', matches: () => true },
   { href: apple, matches: () => false },
 ];
-const manual = visit({ url: 'https://tfpmodels.app/?stay=1&utm_source=threads' });
-// Run the saved DOM-ready handler with actual link-like objects.
-vm.runInNewContext(source, {
-  URL, URLSearchParams,
-  location: { hostname: 'tfpmodels.app', pathname: '/', search: '?stay=1&utm_source=threads', href: 'https://tfpmodels.app/?stay=1&utm_source=threads', origin: 'https://tfpmodels.app' },
-  navigator: { userAgent: '', languages: ['en'] },
-  document: { addEventListener: (_, callback) => callback(), querySelectorAll: () => links },
-});
-assert.ok(manual.listeners.DOMContentLoaded);
+visit({ url: 'https://tfpmodels.app/?stay=1&utm_source=threads', links }).finish();
 assert.equal(new URL(links[0].href).searchParams.get('utm_source'), 'threads');
 assert.equal(new URL(links[1].href).searchParams.get('stay'), '1');
 assert.equal(links[2].href, apple);
-console.log('Marketing routing checks passed: devices, languages, campaigns, bots, manual navigation, .org isolation.');
+console.log('Marketing routing passed: paint before navigation, Threads/Instagram fallback, manual cancellation, blocked navigation, devices, languages, UTM, bot previews, .org isolation.');

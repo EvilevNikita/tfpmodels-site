@@ -43,9 +43,13 @@ Output defaults to `../website-app/`. Publish that directory as a separate
 GitHub Pages site with the custom domain `tfpmodels.app`; keep this repository's
 existing `www.tfpmodels.org` domain and publication unchanged.
 
-- Only `/` and `/index.html` automatically route: iPhone/iPod to the existing
-  App Store URL, Android to the local Android guide. Desktop, iPad, unknown
-  devices, and recognized social-preview bots see the existing landing page.
+- Only `/` and `/index.html` automatically route, after the download page has
+  painted: ordinary iPhone/iPod browsers go to the existing App Store URL,
+  Android goes to the local Android guide. Embedded iPhone browsers such as
+  Threads and Instagram retain the page and use the App Store button, which
+  opens a separate browsing context on a user tap. A manual interaction cancels
+  any pending auto-navigation. Desktop, iPad, unknown devices, and recognized
+  social-preview bots retain the download page.
 - `/about.html`, `/?stay=1`, and translated homepages display the description
   without automatic routing. If external navigation is blocked, the landing
   page's manual download buttons remain available.

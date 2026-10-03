@@ -17,6 +17,8 @@ class Head(HTMLParser):
         super().__init__()
         self.links = []
         self.metas = []
+        self.scripts = []
+        self.anchors = []
         self.feed(html)
 
     def handle_starttag(self, tag, attrs):
@@ -24,6 +26,10 @@ class Head(HTMLParser):
             self.links.append(dict(attrs))
         if tag == 'meta':
             self.metas.append(dict(attrs))
+        if tag == 'script':
+            self.scripts.append(dict(attrs))
+        if tag == 'a':
+            self.anchors.append(dict(attrs))
 
     def noindex(self):
         return any(meta.get('name') == 'robots' and 'noindex' in meta.get('content', '') for meta in self.metas)
@@ -48,6 +54,10 @@ with tempfile.TemporaryDirectory() as folder:
         assert any(meta.get('property') == 'og:url' and meta['content'] == url for meta in head.metas), code
         assert any(meta.get('name') == 'description' and meta['content'] == COPY[code]['description'] for meta in head.metas), code
         assert '/marketing.js' in html, code
+        routers = [script for script in head.scripts if script.get('src', '').startswith('/marketing.js')]
+        assert len(routers) == 1 and 'defer' in routers[0], code
+        store_links = [link for link in head.anchors if link.get('href', '').startswith('https://apps.apple.com/')]
+        assert store_links and all(link.get('target') == '_blank' and 'noopener' in link.get('rel', '') for link in store_links), code
         assert COPY[code]['heading'] in html, code
     ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
     sitemap = ET.parse(output / 'sitemap.xml')
