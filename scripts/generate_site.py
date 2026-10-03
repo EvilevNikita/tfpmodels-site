@@ -9,12 +9,19 @@ from string import Template
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output', type=Path, default=ROOT, help='Destination directory; source templates remain in website/.')
-OUTPUT = parser.parse_args().output.resolve()
+parser.add_argument('--base-url', default='https://www.tfpmodels.org')
+parser.add_argument('--home-template', type=Path, default=ROOT / 'templates/home.html')
+parser.add_argument('--home-overrides', type=Path)
+args = parser.parse_args()
+OUTPUT = args.output.resolve()
 OUTPUT.mkdir(parents=True, exist_ok=True)
-BASE = 'https://www.tfpmodels.org'
+BASE = args.base_url.rstrip('/')
 CODES = ['en', 'de', 'es', 'fr', 'it', 'ja', 'ko', 'pl', 'pt-BR', 'ru']
 LOCALES = json.loads((ROOT / 'content/locales.json').read_text())
 assert set(LOCALES) == set(CODES)
+OVERRIDES = json.loads(args.home_overrides.read_text()) if args.home_overrides else {}
+if OVERRIDES:
+    assert set(OVERRIDES) == set(CODES)
 
 
 def home_path(code):
@@ -36,10 +43,12 @@ def picker(code, android=False):
           </details>'''
 
 
-home_template = Template((ROOT / 'templates/home.html').read_text())
+home_template = Template(args.home_template.read_text())
 for code in CODES:
     locale = LOCALES[code]
-    values = {key: escape(value) for key, value in locale['home'].items() if isinstance(value, str)}
+    home = {**locale['home'], **OVERRIDES.get(code, {})}
+    values = {key: escape(value) for key, value in home.items() if isinstance(value, str)}
+    values['android_intro'] = escape(locale['android'][1])
     values.update({f'feature_{i}': escape(value) for i, value in enumerate(locale['home']['features'])})
     links = [f'<link rel="canonical" href="{BASE}{home_path(code)}">']
     links += [f'<link rel="alternate" hreflang="{other}" href="{BASE}{home_path(other)}">' for other in CODES]

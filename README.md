@@ -36,6 +36,7 @@ Build from these same templates without altering the published `.org` files:
 ```sh
 python3 scripts/generate_marketing_site.py
 node scripts/test_marketing_routing.cjs
+python3 scripts/test_marketing_seo.py
 ```
 
 Output defaults to `../website-app/`. Publish that directory as a separate
@@ -53,8 +54,13 @@ existing `www.tfpmodels.org` domain and publication unchanged.
   store URLs use their existing parameters.
 - The Android guide retains all three closed-testing steps. Once Google Play
   is publicly available, change the Android destination in `templates/marketing.js`.
-- Marketing pages are `noindex`; existing home canonical/hreflang URLs point
-  to `.org`. The `.app` copy has social-preview metadata and no sitemap.
+- Download homepages on `.app` are indexable, with self-canonical URLs,
+  reciprocal `.app` hreflang, localized social-preview metadata, and a sitemap.
+  Android, legal pages, and the duplicate `/about.html` remain `noindex`.
+- Edit the distinct download copy in `content/marketing-locales.json` and its
+  layout in `templates/marketing-home.html`. The `.org` homepage uses its
+  existing template and content. Search engines decide when and whether to
+  index the pages; these settings make them eligible for organic search.
 - The existing consent-based GA4 policy applies on `.app`. A fresh iPhone visit
   immediately goes to Apple without loading GA4; neither routing nor a store
   click proves installation. Consent and cookies are separate across domains.
