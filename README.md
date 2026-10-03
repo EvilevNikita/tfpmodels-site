@@ -42,9 +42,11 @@ Output defaults to `../website-app/`. Publish that directory as a separate
 GitHub Pages site with the custom domain `tfpmodels.app`; keep this repository's
 existing `www.tfpmodels.org` domain and publication unchanged.
 
-- Every device sees the download page. For iPhone opens the ordinary HTTPS
-  App Store link; For Android opens the local installation guide. There are no
-  automatic redirects, custom protocols, or external-browser handoffs.
+- The root displays the page before attempting an ordinary HTTPS App Store
+  redirect on iPhone or routing Android to the local installation guide. Manual
+  interaction cancels the redirect. Desktop, iPad, bots, translated pages,
+  /about.html and ?stay=1 retain the page. Ordinary buttons remain available;
+  no custom protocols or external-browser handoffs are used.
 - The Android guide retains all three closed-testing steps. Once Google Play
   is publicly available, change the Android links in `templates/marketing-home.html`.
 - Download homepages on `.app` are indexable, with self-canonical URLs,

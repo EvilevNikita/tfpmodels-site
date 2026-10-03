@@ -53,7 +53,8 @@ with tempfile.TemporaryDirectory() as folder:
         assert alternate == {**expected, 'x-default': expected['en']}, code
         assert any(meta.get('property') == 'og:url' and meta['content'] == url for meta in head.metas), code
         assert any(meta.get('name') == 'description' and meta['content'] == COPY[code]['description'] for meta in head.metas), code
-        assert '/marketing.js' not in html, code
+        routers = [script for script in head.scripts if script.get('src', '').startswith('/marketing.js')]
+        assert len(routers) == 1 and 'defer' in routers[0], code
         store_links = [link for link in head.anchors if link.get('href', '').startswith('https://apps.apple.com/')]
         assert len(store_links) == 2 and all('target' not in link for link in store_links), code
         assert all('data-app-store' not in link for link in store_links), code
