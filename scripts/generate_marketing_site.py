@@ -38,7 +38,7 @@ for page in output.rglob('*.html'):
     if page.name != 'index.html' and 'name="robots"' not in html:
         html = html.replace('</head>', '  <meta name="robots" content="noindex">\n</head>')
     if page.name == 'index.html':
-        html = html.replace('</head>', '  <script defer src="/marketing.js?v=20261003-after-load"></script>\n</head>')
+        html = html.replace('</head>', '  <script defer src="/marketing.js?v=20261003-all-locales"></script>\n</head>')
         code = re.search(r'<html lang="([^"]+)"', html).group(1)
         canonical = re.search(r'<link rel="canonical" href="([^"]+)"', html).group(1)
         html = html.replace('</head>', f'''  <meta property="og:type" content="website">
@@ -66,10 +66,10 @@ sitemap += '\n'.join(f'  <url><loc>{escape(url)}</loc></url>' for url in urls)
 Published separately at https://tfpmodels.app using GitHub Pages, `main` / root.
 The existing https://www.tfpmodels.org publication remains separate.
 
-The root paints the download page first, then attempts an ordinary HTTPS
+All localized homepages paint the download page first, then attempts an ordinary HTTPS
 App Store redirect on iPhone or routes Android to the local installation guide.
 Manual interaction cancels the automatic redirect. Desktop, iPad, bots,
-translated pages, /about.html and ?stay=1 retain the page. Ordinary download
+/about.html and ?stay=1 retain the page. Ordinary download
 buttons remain available when automatic navigation is blocked. No custom
 protocols or external-browser handoffs are used.
 

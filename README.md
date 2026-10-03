@@ -42,9 +42,9 @@ Output defaults to `../website-app/`. Publish that directory as a separate
 GitHub Pages site with the custom domain `tfpmodels.app`; keep this repository's
 existing `www.tfpmodels.org` domain and publication unchanged.
 
-- The root displays the page before attempting an ordinary HTTPS App Store
+- Every localized homepage displays the page before attempting an ordinary HTTPS App Store
   redirect on iPhone or routing Android to the local installation guide. Manual
-  interaction cancels the redirect. Desktop, iPad, bots, translated pages,
+  interaction cancels the redirect. Desktop, iPad, bots,
   /about.html and ?stay=1 retain the page. Ordinary buttons remain available;
   no custom protocols or external-browser handoffs are used.
 - The Android guide retains all three closed-testing steps. Once Google Play

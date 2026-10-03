@@ -10,12 +10,17 @@
     return supported.find(code => code.toLowerCase() === normalized)
       || supported.find(code => code.split('-')[0] === normalized.split('-')[0]);
   };
+  const pathLanguage = supported.find(code => {
+    const prefix = '/' + code.toLowerCase();
+    return [prefix, prefix + '/', prefix + '/index.html'].includes(location.pathname);
+  });
   const language = match(params.get('lang'))
+    || pathLanguage
     || (navigator.languages || [navigator.language]).map(match).find(Boolean)
     || 'en';
   const ua = navigator.userAgent || '';
   const preview = /bot|crawler|spider|facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|TelegramBot/i.test(ua);
-  const entry = location.pathname === '/' || location.pathname === '/index.html';
+  const entry = location.pathname === '/' || location.pathname === '/index.html' || Boolean(pathLanguage);
   const iphone = /iPhone|iPod/i.test(ua);
   let destination;
   if (entry && params.get('stay') !== '1' && !preview) {
@@ -40,9 +45,6 @@
       if (url.origin !== location.origin) continue;
       for (const key of campaignKeys) {
         if (params.has(key)) url.searchParams.set(key, params.get(key));
-      }
-      if (link.matches('.language-nav a') && url.pathname !== '/android.html') {
-        url.searchParams.set('stay', '1');
       }
       link.href = url.href;
     }

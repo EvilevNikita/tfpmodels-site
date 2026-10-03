@@ -84,7 +84,7 @@ assert.equal(visit({ ua: 'Android', languages: ['zh-CN'] }).finish().destination
 for (const ua of ['', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', 'Mozilla/5.0 (iPad; CPU OS 18_0)', 'facebookexternalhit/1.1 iPhone', 'Twitterbot Android']) {
   assert.equal(visit({ ua }).finish().attempts, 0);
 }
-for (const url of ['https://www.tfpmodels.org/', 'https://tfpmodels.app/?stay=1', 'https://tfpmodels.app/about.html', 'https://tfpmodels.app/android.html', 'https://tfpmodels.app/ru/']) {
+for (const url of ['https://www.tfpmodels.org/', 'https://tfpmodels.app/?stay=1', 'https://tfpmodels.app/about.html', 'https://tfpmodels.app/android.html']) {
   assert.equal(visit({ ua: safari, url }).finish().attempts, 0);
 }
 assert.equal(visit({ ua: safari, url: 'https://www.tfpmodels.app/index.html' }).finish().destination, apple);
@@ -95,6 +95,24 @@ const links = [
 ];
 visit({ url: 'https://tfpmodels.app/?stay=1&utm_source=threads', links }).finish();
 assert.equal(new URL(links[0].href).searchParams.get('utm_source'), 'threads');
-assert.equal(new URL(links[1].href).searchParams.get('stay'), '1');
+assert.equal(new URL(links[1].href).searchParams.has('stay'), false, 'Language navigation must not disable routing');
 assert.equal(links[2].href, apple);
 console.log('Marketing routing passed: paint before navigation, iPhone social-browser attempt, manual cancellation, blocked navigation, devices, languages, UTM, bot previews, .org isolation.');
+
+for (const code of ['en', 'de', 'es', 'fr', 'it', 'ja', 'ko', 'pl', 'pt-BR', 'ru']) {
+  // English is the root; the other nine locales have their own published paths.
+  const prefix = code === 'en' ? '' : code.toLowerCase() + '/';
+  for (const suffix of ['', 'index.html']) {
+    const url = 'https://tfpmodels.app/' + prefix + suffix;
+    assert.equal(visit({ ua: safari, url }).finish().destination, apple);
+    assert.equal(visit({ ua: 'Android Telegram', url, languages: ['en-US'] }).finish().destination,
+      'https://tfpmodels.app/android.html?lang=' + code + '#' + code);
+    assert.equal(visit({ ua: 'facebookexternalhit iPhone', url }).finish().attempts, 0);
+  }
+}
+assert.equal(visit({ ua: 'Android', url: 'https://tfpmodels.app/ru/?lang=de&utm_source=telegram' }).finish().destination,
+  'https://tfpmodels.app/android.html?lang=de&utm_source=telegram#de');
+for (const url of ['https://tfpmodels.app/ru/?stay=1', 'https://tfpmodels.app/ru/android.html', 'https://tfpmodels.app/unknown/']) {
+  assert.equal(visit({ ua: safari, url }).finish().attempts, 0);
+}
+console.log('All 10 localized homepages passed: iPhone/Android, localized guide, explicit language override, UTM and bot exclusions.');
