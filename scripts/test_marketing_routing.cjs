@@ -18,6 +18,11 @@ function visit({ ua = '', url = 'https://tfpmodels.app/', languages = ['en'], pl
     location: {
       hostname: parsed.hostname, pathname: parsed.pathname, search: parsed.search,
       href: parsed.href, origin: parsed.origin,
+      assign: value => {
+        attempts++;
+        if (blocked) throw new Error('External navigation blocked');
+        destination = value;
+      },
       replace: value => {
         attempts++;
         if (blocked) throw new Error('External navigation blocked');
@@ -29,7 +34,7 @@ function visit({ ua = '', url = 'https://tfpmodels.app/', languages = ['en'], pl
       readyState: 'loading',
       referrer,
       addEventListener: (name, callback) => { listeners[name] = callback; },
-      querySelectorAll: () => links,
+      querySelectorAll: selector => selector === 'a[data-app-store]' ? links.filter(link => link.native) : links,
     },
     requestAnimationFrame: callback => { frames.push(callback); },
     setTimeout: (callback, delay) => { timers.push({ callback, delay }); },
@@ -99,3 +104,32 @@ assert.equal(new URL(links[0].href).searchParams.get('utm_source'), 'threads');
 assert.equal(new URL(links[1].href).searchParams.get('stay'), '1');
 assert.equal(links[2].href, apple);
 console.log('Marketing routing passed: paint before navigation, Threads/Instagram fallback, manual cancellation, blocked navigation, devices, languages, UTM, bot previews, .org isolation.');
+
+function storeLinks() {
+  return [
+    { href: apple, native: true, matches: () => false, addEventListener(name, callback) { this.click = callback; } },
+    { href: apple, matches: () => false },
+  ];
+}
+const manualLinks = storeLinks();
+const manual = visit({ ua: safari + ' Threads', links: manualLinks }).finish();
+assert.equal(manual.attempts, 0);
+let prevented = false;
+manualLinks[0].click({ button: 0, preventDefault() { prevented = true; } });
+assert.equal(manual.destination, 'itms-apps://itunes.apple.com/app/id6766621647');
+assert.equal(prevented, true);
+assert.equal(manualLinks[1].href, apple);
+assert.equal(manualLinks[1].click, undefined, 'HTTPS fallback must remain ordinary navigation');
+const rejectedLinks = storeLinks();
+visit({ ua: safari + ' Threads', links: rejectedLinks, blocked: true }).finish();
+rejectedLinks[0].click({ button: 0, preventDefault() { throw new Error('Must allow HTTPS after a thrown rejection'); } });
+for (const ua of ['Android', 'Desktop', 'facebookexternalhit iPhone']) {
+  const anchors = storeLinks();
+  visit({ ua, links: anchors }).finish();
+  assert.equal(anchors[0].click, undefined);
+}
+const modifiedLinks = storeLinks();
+const modified = visit({ ua: safari + ' Threads', links: modifiedLinks }).finish();
+modifiedLinks[0].click({ button: 0, metaKey: true });
+assert.equal(modified.attempts, 0);
+console.log('Manual store handoff passed: synchronous native navigation, HTTPS fallback, blocked scheme, modified clicks and device isolation.');

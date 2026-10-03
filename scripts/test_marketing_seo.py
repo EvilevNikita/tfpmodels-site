@@ -57,7 +57,9 @@ with tempfile.TemporaryDirectory() as folder:
         routers = [script for script in head.scripts if script.get('src', '').startswith('/marketing.js')]
         assert len(routers) == 1 and 'defer' in routers[0], code
         store_links = [link for link in head.anchors if link.get('href', '').startswith('https://apps.apple.com/')]
-        assert store_links and all(link.get('target') == '_blank' and 'noopener' in link.get('rel', '') for link in store_links), code
+        assert len(store_links) == 3 and all('target' not in link for link in store_links), code
+        assert sum('data-app-store' in link for link in store_links) == 2, code
+        assert COPY[code]['store_help'] in html, code
         assert COPY[code]['heading'] in html, code
     ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
     sitemap = ET.parse(output / 'sitemap.xml')

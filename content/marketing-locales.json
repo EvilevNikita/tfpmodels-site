@@ -6,7 +6,9 @@
     "intro": "Choose your phone to install TFP Models and start finding a team for your next shoot. iPhone downloads open in the App Store; Android installation follows the early-access guide.",
     "iphone_text": "Open TFP Models in the App Store on your iPhone and install the app. You can also check the listing for the current version and device requirements.",
     "start_title": "After installation",
-    "start_text": "Create your account and profile, then explore creators and castings. Use the app’s chat to discuss a shoot’s concept and terms with your team."
+    "start_text": "Create your account and profile, then explore creators and castings. Use the app’s chat to discuss a shoot’s concept and terms with your team.",
+    "app_store_web": "View App Store listing",
+    "store_help": "If App Store does not open, use the browser menu to open this page in Safari. You can also search for TFP Models in App Store."
   },
   "ru": {
     "title": "Скачать TFP Models для iPhone и Android",
@@ -15,7 +17,9 @@
     "intro": "Выберите свой телефон, установите TFP Models и начните искать команду для следующей съёмки. Для iPhone откроется App Store, для Android — инструкция установки версии раннего доступа.",
     "iphone_text": "Откройте TFP Models в App Store на iPhone и установите приложение. На странице магазина также указаны текущая версия и требования к устройству.",
     "start_title": "После установки",
-    "start_text": "Создайте аккаунт и анкету, затем просматривайте участников и кастинги. В чате приложения обсуждайте с командой идею и условия съёмки."
+    "start_text": "Создайте аккаунт и анкету, затем просматривайте участников и кастинги. В чате приложения обсуждайте с командой идею и условия съёмки.",
+    "app_store_web": "Открыть страницу App Store",
+    "store_help": "Если App Store не открывается, через меню браузера откройте эту страницу в Safari. Или найдите TFP Models поиском в App Store."
   },
   "de": {
     "title": "TFP Models für iPhone und Android herunterladen",
@@ -24,7 +28,9 @@
     "intro": "Wähle dein Smartphone, installiere TFP Models und finde ein Team für dein nächstes Shooting. Für iPhone öffnet sich der App Store, für Android die Installationsanleitung für den Vorabzugang.",
     "iphone_text": "Öffne TFP Models im App Store auf deinem iPhone und installiere die App. Dort findest du auch die aktuelle Version und die Geräteanforderungen.",
     "start_title": "Nach der Installation",
-    "start_text": "Erstelle dein Konto und Profil und entdecke Kreative und Castings. Besprich das Konzept und die Bedingungen des Shootings im App-Chat mit deinem Team."
+    "start_text": "Erstelle dein Konto und Profil und entdecke Kreative und Castings. Besprich das Konzept und die Bedingungen des Shootings im App-Chat mit deinem Team.",
+    "app_store_web": "App-Store-Seite ansehen",
+    "store_help": "Falls sich der App Store nicht öffnet, öffne diese Seite über das Browsermenü in Safari. Du kannst auch im App Store nach TFP Models suchen."
   },
   "es": {
     "title": "Descargar TFP Models para iPhone y Android",
@@ -33,7 +39,9 @@
     "intro": "Elige tu teléfono, instala TFP Models y encuentra un equipo para tu próxima sesión. Para iPhone se abre App Store; para Android, la guía de instalación de acceso anticipado.",
     "iphone_text": "Abre TFP Models en App Store desde tu iPhone e instala la app. Allí también puedes consultar la versión actual y los requisitos del dispositivo.",
     "start_title": "Después de instalar",
-    "start_text": "Crea tu cuenta y tu perfil y descubre profesionales y castings. Usa el chat de la app para acordar con tu equipo la idea y las condiciones de la sesión."
+    "start_text": "Crea tu cuenta y tu perfil y descubre profesionales y castings. Usa el chat de la app para acordar con tu equipo la idea y las condiciones de la sesión.",
+    "app_store_web": "Ver la página de App Store",
+    "store_help": "Si App Store no se abre, usa el menú del navegador para abrir esta página en Safari. También puedes buscar TFP Models en App Store."
   },
   "fr": {
     "title": "Télécharger TFP Models pour iPhone et Android",
@@ -42,7 +50,9 @@
     "intro": "Choisissez votre téléphone, installez TFP Models et trouvez une équipe pour votre prochaine séance. Sur iPhone, ouvrez l’App Store ; sur Android, suivez le guide d’installation en accès anticipé.",
     "iphone_text": "Ouvrez TFP Models dans l’App Store sur votre iPhone et installez l’application. Vous y trouverez aussi la version actuelle et les exigences de compatibilité.",
     "start_title": "Après l’installation",
-    "start_text": "Créez votre compte et votre profil, puis découvrez les créateurs et les castings. Discutez du concept et des conditions de la séance avec votre équipe dans le chat de l’application."
+    "start_text": "Créez votre compte et votre profil, puis découvrez les créateurs et les castings. Discutez du concept et des conditions de la séance avec votre équipe dans le chat de l’application.",
+    "app_store_web": "Voir la page App Store",
+    "store_help": "Si l’App Store ne s’ouvre pas, ouvrez cette page dans Safari depuis le menu du navigateur. Vous pouvez aussi rechercher TFP Models dans l’App Store."
   },
   "it": {
     "title": "Scarica TFP Models per iPhone e Android",
@@ -51,7 +61,9 @@
     "intro": "Scegli il tuo telefono, installa TFP Models e trova un team per il prossimo servizio fotografico. Per iPhone si apre l’App Store; per Android, la guida all’installazione in accesso anticipato.",
     "iphone_text": "Apri TFP Models nell’App Store sul tuo iPhone e installa l’app. Puoi anche consultare la versione attuale e i requisiti del dispositivo.",
     "start_title": "Dopo l’installazione",
-    "start_text": "Crea il tuo account e profilo, poi esplora creativi e casting. Usa la chat dell’app per discutere con il team l’idea e le condizioni del servizio fotografico."
+    "start_text": "Crea il tuo account e profilo, poi esplora creativi e casting. Usa la chat dell’app per discutere con il team l’idea e le condizioni del servizio fotografico.",
+    "app_store_web": "Visualizza la pagina App Store",
+    "store_help": "Se l’App Store non si apre, usa il menu del browser per aprire questa pagina in Safari. Puoi anche cercare TFP Models nell’App Store."
   },
   "ja": {
     "title": "TFP ModelsをiPhone・Androidにダウンロード",
@@ -60,7 +72,9 @@
     "intro": "お使いのスマートフォンを選び、TFP Modelsをインストールして次の撮影のチームを探しましょう。iPhoneではApp Store、Androidでは早期アクセス版のインストール手順が開きます。",
     "iphone_text": "iPhoneのApp StoreでTFP Modelsを開き、アプリをインストールしてください。現在のバージョンや対応端末の条件も確認できます。",
     "start_title": "インストール後",
-    "start_text": "アカウントとプロフィールを作成し、クリエイターや撮影の募集を探しましょう。アプリのチャットでチームと撮影のアイデアや条件を相談できます。"
+    "start_text": "アカウントとプロフィールを作成し、クリエイターや撮影の募集を探しましょう。アプリのチャットでチームと撮影のアイデアや条件を相談できます。",
+    "app_store_web": "App Storeのページを見る",
+    "store_help": "App Storeが開かない場合は、ブラウザのメニューからこのページをSafariで開いてください。App StoreでTFP Modelsを検索することもできます。"
   },
   "ko": {
     "title": "iPhone 및 Android용 TFP Models 다운로드",
@@ -69,7 +83,9 @@
     "intro": "사용하는 휴대폰을 선택해 TFP Models를 설치하고 다음 촬영을 위한 팀을 찾아보세요. iPhone에서는 App Store가, Android에서는 얼리 액세스 설치 안내가 열립니다.",
     "iphone_text": "iPhone의 App Store에서 TFP Models를 열고 앱을 설치하세요. 현재 버전과 기기 요구 사항도 확인할 수 있습니다.",
     "start_title": "설치 후",
-    "start_text": "계정과 프로필을 만들고 크리에이터와 캐스팅을 찾아보세요. 앱의 채팅에서 팀과 촬영 아이디어 및 조건을 논의할 수 있습니다."
+    "start_text": "계정과 프로필을 만들고 크리에이터와 캐스팅을 찾아보세요. 앱의 채팅에서 팀과 촬영 아이디어 및 조건을 논의할 수 있습니다.",
+    "app_store_web": "App Store 페이지 보기",
+    "store_help": "App Store가 열리지 않으면 브라우저 메뉴에서 이 페이지를 Safari로 여세요. App Store에서 TFP Models를 검색할 수도 있습니다."
   },
   "pl": {
     "title": "Pobierz TFP Models na iPhone’a i Androida",
@@ -78,7 +94,9 @@
     "intro": "Wybierz swój telefon, zainstaluj TFP Models i znajdź zespół do kolejnej sesji. Na iPhonie otworzy się App Store, a na Androidzie — instrukcja instalacji wersji we wczesnym dostępie.",
     "iphone_text": "Otwórz TFP Models w App Store na iPhonie i zainstaluj aplikację. Możesz też sprawdzić aktualną wersję i wymagania dotyczące urządzenia.",
     "start_title": "Po instalacji",
-    "start_text": "Utwórz konto i profil, a następnie przeglądaj twórców i castingi. Na czacie aplikacji omów z zespołem pomysł i warunki sesji."
+    "start_text": "Utwórz konto i profil, a następnie przeglądaj twórców i castingi. Na czacie aplikacji omów z zespołem pomysł i warunki sesji.",
+    "app_store_web": "Zobacz stronę App Store",
+    "store_help": "Jeśli App Store się nie otwiera, otwórz tę stronę w Safari przez menu przeglądarki. Możesz też wyszukać TFP Models w App Store."
   },
   "pt-BR": {
     "title": "Baixe TFP Models para iPhone e Android",
@@ -87,6 +105,8 @@
     "intro": "Escolha seu celular, instale TFP Models e encontre uma equipe para o próximo ensaio. No iPhone, abra a App Store; no Android, siga o guia de instalação do acesso antecipado.",
     "iphone_text": "Abra TFP Models na App Store do iPhone e instale o app. Você também pode conferir a versão atual e os requisitos do dispositivo.",
     "start_title": "Depois da instalação",
-    "start_text": "Crie sua conta e seu perfil e explore criadores e castings. Use o chat do app para combinar a ideia e as condições do ensaio com sua equipe."
+    "start_text": "Crie sua conta e seu perfil e explore criadores e castings. Use o chat do app para combinar a ideia e as condições do ensaio com sua equipe.",
+    "app_store_web": "Ver a página da App Store",
+    "store_help": "Se a App Store não abrir, use o menu do navegador para abrir esta página no Safari. Você também pode buscar TFP Models na App Store."
   }
 }

@@ -43,6 +43,19 @@
   // Keep campaign attribution when users choose Android or change language.
   // Store URLs are left untouched: Apple uses its own campaign parameters.
   function start() {
+    if (iphone && !preview) {
+      for (const link of document.querySelectorAll('a[data-app-store]')) {
+        link.addEventListener('click', event => {
+          if (event.defaultPrevented || event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          // Stay inside the user's tap: no popup, timer, or intermediate web page.
+          // Keep the HTTPS href for no-JS browsing, analytics, and the separate fallback.
+          try {
+            location.assign('itms-apps://itunes.apple.com/app/id6766621647');
+            event.preventDefault();
+          } catch (_) { /* Let the ordinary HTTPS link handle a rejected scheme. */ }
+        });
+      }
+    }
     for (const link of document.querySelectorAll('a[href]')) {
       const url = new URL(link.href, location.href);
       if (url.origin !== location.origin) continue;
