@@ -54,9 +54,8 @@ existing `www.tfpmodels.org` domain and publication unchanged.
   layout in `templates/marketing-home.html`. The `.org` homepage uses its
   existing template and content. Search engines decide when and whether to
   index the pages; these settings make them eligible for organic search.
-- The existing consent-based GA4 policy applies on `.app`. A fresh iPhone visit
-  immediately goes to Apple without loading GA4; neither routing nor a store
-  click proves installation. Consent and cookies are separate across domains.
+- The existing consent-based GA4 policy applies on `.app`. Analytics loads only after consent. A store
+  click does not prove installation. Consent and cookies are separate across domains.
 
 Deployment: configure and verify the new domain in GitHub Pages, then configure
 only the `.app` DNS zone in Porkbun. GitHub Pages apex A records are
@@ -64,5 +63,5 @@ only the `.app` DNS zone in Porkbun. GitHub Pages apex A records are
 `www` CNAME points to `evilevnikita.github.io`. Enable HTTPS when the certificate
 is ready. The live `.app` setup uses the equivalent Porkbun apex ALIAS
 `evilevnikita.github.io` and `www` CNAME `evilevnikita.github.io`, TTL 600.
-Test both apex and `www`, device routing, manual buttons, translations,
+Test both apex and `www`, ordinary download buttons, translations,
 social previews, and continued `.org` availability before running ads.
