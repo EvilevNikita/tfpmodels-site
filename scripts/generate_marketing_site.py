@@ -30,7 +30,8 @@ assets = [
 ]
 for asset in assets:
     shutil.copyfile(ROOT / asset, output / asset)
-shutil.copyfile(ROOT / 'templates/marketing.js', output / 'marketing.js')
+# Remove the obsolete router from existing generated checkouts.
+(output / 'marketing.js').unlink(missing_ok=True)
 
 for page in output.rglob('*.html'):
     html = page.read_text()
@@ -38,7 +39,6 @@ for page in output.rglob('*.html'):
     if page.name != 'index.html' and 'name="robots"' not in html:
         html = html.replace('</head>', '  <meta name="robots" content="noindex">\n</head>')
     if page.name == 'index.html':
-        html = html.replace('<meta charset="UTF-8">', '<meta charset="UTF-8">\n  <script defer src="/marketing.js?v=20261003-barcelona-link"></script>')
         code = re.search(r'<html lang="([^"]+)"', html).group(1)
         canonical = re.search(r'<link rel="canonical" href="([^"]+)"', html).group(1)
         html = html.replace('</head>', f'''  <meta property="og:type" content="website">
@@ -48,11 +48,9 @@ for page in output.rglob('*.html'):
   <meta property="og:image" content="https://tfpmodels.app/favicon.png">
   <meta name="twitter:card" content="summary">
 </head>''')
-    elif page.name == 'android.html':
-        html = html.replace('</head>', '  <script defer src="/marketing.js?v=20261003-barcelona-link"></script>\n</head>')
     page.write_text(html)
 
-# A stable description link for mobile visitors who want to bypass routing.
+# Preserve the existing description URL.
 (output / 'about.html').write_text((output / 'index.html').read_text().replace(
     '</head>', '  <meta name="robots" content="noindex">\n</head>'))
 cname = output / 'CNAME'
@@ -63,23 +61,15 @@ urls = ['https://tfpmodels.app/' if code == 'en' else f'https://tfpmodels.app/{c
 sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 sitemap += '\n'.join(f'  <url><loc>{escape(url)}</loc></url>' for url in urls)
 (output / 'sitemap.xml').write_text(sitemap + '\n</urlset>\n')
-analytics = (output / 'analytics.js').read_text()
-analytics = analytics.replace("url.hostname === 'apps.apple.com'", "url.hostname === 'apps.apple.com' || link.matches('a[data-app-store]')")
-analytics = analytics.replace('link_url: url.origin + url.pathname,', "link_url: link.matches('a[data-app-store]') ? 'https://apps.apple.com/app/tfp-models/id6766621647' : url.origin + url.pathname,")
-(output / 'analytics.js').write_text(analytics)
 (output / 'README.md').write_text('''# TFP Models marketing site
 
 Published separately at https://tfpmodels.app using GitHub Pages, `main` / root.
 The existing https://www.tfpmodels.org publication remains separate.
 
-The root displays the download page before routing iPhone browsers to the existing App Store listing and Android
-visitors to `/android.html`. Desktop and unrecognized devices see the landing
-page. Embedded iPhone browsers (including Threads and Instagram) keep the
-information visible and use the App Store button instead of an automatic store
-handoff. On iPhone, buttons use a clickable barcelona://extbrowser link to reopen the root
-in the external browser, which then attempts the ordinary App Store handoff. A separate HTTPS link and Safari instructions remain available.
-Manual interaction cancels a pending automatic redirect.
-`/about.html` and `/?stay=1` bypass automatic routing.
+The download page stays visible on every device. For iPhone links directly to
+https://apps.apple.com/app/tfp-models/id6766621647; For Android links to the local
+installation guide. All links use ordinary HTTPS with no automatic routing,
+custom protocols, or external-browser handoff.
 
 Android installation instructions and download pages use ten-language content
 from [tfpmodels-site](https://github.com/EvilevNikita/tfpmodels-site).
@@ -88,12 +78,11 @@ the source repository:
 
 ```sh
 python3 scripts/generate_marketing_site.py --output ../tfpmodels-app-site
-node scripts/test_marketing_routing.cjs
 python3 scripts/test_marketing_seo.py
 ```
 
 Use the cloned checkout of this repository as the output directory, review its
-diff, then commit and push. Do not manually edit generated HTML or marketing.js.
+diff, then commit and push. Do not manually edit generated HTML.
 
 Porkbun DNS: apex ALIAS `evilevnikita.github.io`, www CNAME
 `evilevnikita.github.io`, TTL 600. The Pages custom domain is `tfpmodels.app`.
@@ -104,9 +93,6 @@ on .app, and are listed in the .app sitemap. Android, legal pages, and the
 duplicate /about.html stay noindex. Download copy lives in
 `content/marketing-locales.json`; its template is `templates/marketing-home.html`.
 Search indexing and search-result appearance are decided by the search engine.
-Standard UTM
-parameters survive the Android route and internal links. GA4 only loads after
-consent, so fresh immediate iPhone redirects do not produce GA4 events and do
-not measure installation. Store URLs and support email remain unchanged.
+GA4 only loads after consent. Store URLs and support email remain unchanged.
 ''')
 print(f'Marketing site ready: {output}')

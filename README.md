@@ -35,7 +35,6 @@ Build from these same templates without altering the published `.org` files:
 
 ```sh
 python3 scripts/generate_marketing_site.py
-node scripts/test_marketing_routing.cjs
 python3 scripts/test_marketing_seo.py
 ```
 
@@ -43,23 +42,11 @@ Output defaults to `../website-app/`. Publish that directory as a separate
 GitHub Pages site with the custom domain `tfpmodels.app`; keep this repository's
 existing `www.tfpmodels.org` domain and publication unchanged.
 
-- Only `/` and `/index.html` automatically route, after the download page has
-  painted: ordinary iPhone/iPod browsers go to the existing App Store URL,
-  Android goes to the local Android guide. Embedded iPhone browsers such as
-  Threads and Instagram retain the page and use the App Store button, which
-  uses a clickable barcelona://extbrowser link to reopen the root in an external browser.
-  Safari then attempts the ordinary App Store handoff. An HTTPS fallback link and
-  Safari instructions remain visible. A manual interaction cancels
-  any pending auto-navigation. Desktop, iPad, unknown devices, and recognized
-  social-preview bots retain the download page.
-- `/about.html`, `/?stay=1`, and translated homepages display the description
-  without automatic routing. If external navigation is blocked, the landing
-  page's manual download buttons remain available.
-- Android routing uses the requested language, then browser language, then
-  English. Standard UTM parameters survive routing and internal navigation;
-  store URLs use their existing parameters.
+- Every device sees the download page. For iPhone opens the ordinary HTTPS
+  App Store link; For Android opens the local installation guide. There are no
+  automatic redirects, custom protocols, or external-browser handoffs.
 - The Android guide retains all three closed-testing steps. Once Google Play
-  is publicly available, change the Android destination in `templates/marketing.js`.
+  is publicly available, change the Android links in `templates/marketing-home.html`.
 - Download homepages on `.app` are indexable, with self-canonical URLs,
   reciprocal `.app` hreflang, localized social-preview metadata, and a sitemap.
   Android, legal pages, and the duplicate `/about.html` remain `noindex`.
