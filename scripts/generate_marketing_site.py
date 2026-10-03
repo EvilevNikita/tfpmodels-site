@@ -38,7 +38,7 @@ for page in output.rglob('*.html'):
     if page.name != 'index.html' and 'name="robots"' not in html:
         html = html.replace('</head>', '  <meta name="robots" content="noindex">\n</head>')
     if page.name == 'index.html':
-        html = html.replace('<meta charset="UTF-8">', '<meta charset="UTF-8">\n  <script defer src="/marketing.js?v=20261003-safari-link"></script>')
+        html = html.replace('<meta charset="UTF-8">', '<meta charset="UTF-8">\n  <script defer src="/marketing.js?v=20261003-barcelona-link"></script>')
         code = re.search(r'<html lang="([^"]+)"', html).group(1)
         canonical = re.search(r'<link rel="canonical" href="([^"]+)"', html).group(1)
         html = html.replace('</head>', f'''  <meta property="og:type" content="website">
@@ -49,7 +49,7 @@ for page in output.rglob('*.html'):
   <meta name="twitter:card" content="summary">
 </head>''')
     elif page.name == 'android.html':
-        html = html.replace('</head>', '  <script defer src="/marketing.js?v=20261003-safari-link"></script>\n</head>')
+        html = html.replace('</head>', '  <script defer src="/marketing.js?v=20261003-barcelona-link"></script>\n</head>')
     page.write_text(html)
 
 # A stable description link for mobile visitors who want to bypass routing.
@@ -76,8 +76,8 @@ The root displays the download page before routing iPhone browsers to the existi
 visitors to `/android.html`. Desktop and unrecognized devices see the landing
 page. Embedded iPhone browsers (including Threads and Instagram) keep the
 information visible and use the App Store button instead of an automatic store
-handoff. On iPhone, buttons use a clickable x-safari-https link to reopen the root
-in Safari, which then attempts the ordinary App Store handoff. A separate HTTPS link and Safari instructions remain available.
+handoff. On iPhone, buttons use a clickable barcelona://extbrowser link to reopen the root
+in the external browser, which then attempts the ordinary App Store handoff. A separate HTTPS link and Safari instructions remain available.
 Manual interaction cancels a pending automatic redirect.
 `/about.html` and `/?stay=1` bypass automatic routing.
 

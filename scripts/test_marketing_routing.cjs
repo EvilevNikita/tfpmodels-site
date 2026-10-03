@@ -114,7 +114,7 @@ function storeLinks() {
 const manualLinks = storeLinks();
 const manual = visit({ ua: safari + ' Threads', links: manualLinks }).finish();
 assert.equal(manual.attempts, 0);
-assert.equal(manualLinks[0].href, 'x-safari-https://tfpmodels.app/?safari=1&lang=en');
+assert.equal(manualLinks[0].href, 'barcelona://extbrowser/?url=' + encodeURIComponent('https://tfpmodels.app/?safari=1&lang=en'));
 assert.equal(manualLinks[1].href, apple, 'HTTPS fallback must remain ordinary navigation');
 for (const ua of ['Android', 'Desktop', 'facebookexternalhit iPhone']) {
   const anchors = storeLinks();
@@ -128,5 +128,5 @@ assert.equal(returned.destination, apple, 'Safari must finish the store handoff 
 assert.equal(visit({ ua: safari + ' Threads', url: 'https://tfpmodels.app/?safari=1' }).finish().attempts, 0, 'Explicit embedded browser markers still prevent automatic store navigation');
 const campaignLinks = storeLinks();
 visit({ ua: safari + ' Threads', url: 'https://tfpmodels.app/ru/?stay=1&utm_source=threads&redirect=https://evil.example', links: campaignLinks }).finish();
-assert.equal(campaignLinks[0].href, 'x-safari-https://tfpmodels.app/?safari=1&lang=en&utm_source=threads');
-console.log('Safari links passed: actual anchor href, normal HTTPS fallback, device isolation, campaign preservation, no Safari loop, and return-to-store navigation.');
+assert.equal(campaignLinks[0].href, 'barcelona://extbrowser/?url=' + encodeURIComponent('https://tfpmodels.app/?safari=1&lang=en&utm_source=threads'));
+console.log('Threads external-browser links passed: actual anchor href, normal HTTPS fallback, device isolation, campaign preservation, no Safari loop, and return-to-store navigation.');

@@ -44,7 +44,7 @@
   // Store URLs are left untouched: Apple uses its own campaign parameters.
   function start() {
     if (iphone && !preview && params.get('safari') !== '1') {
-      // Use an actual clickable Safari URL rather than a scripted store launch.
+      // Use Threads’ external-browser scheme as an actual clickable link.
       // Return to the root so Safari can finish the ordinary App Store redirect.
       const target = new URL('/', location.href);
       target.searchParams.set('safari', '1');
@@ -53,7 +53,7 @@
         if (params.has(key)) target.searchParams.set(key, params.get(key));
       }
       for (const link of document.querySelectorAll('a[data-app-store]')) {
-        link.href = target.href.replace(/^https?:/, 'x-safari-https:');
+        link.href = 'barcelona://extbrowser/?url=' + encodeURIComponent(target.href);
       }
     }
     for (const link of document.querySelectorAll('a[href]')) {
