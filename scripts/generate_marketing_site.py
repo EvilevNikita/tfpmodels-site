@@ -38,7 +38,7 @@ for page in output.rglob('*.html'):
     if page.name != 'index.html' and 'name="robots"' not in html:
         html = html.replace('</head>', '  <meta name="robots" content="noindex">\n</head>')
     if page.name == 'index.html':
-        html = html.replace('<meta charset="UTF-8">', '<meta charset="UTF-8">\n  <script defer src="/marketing.js?v=20261003-native-store"></script>')
+        html = html.replace('<meta charset="UTF-8">', '<meta charset="UTF-8">\n  <script defer src="/marketing.js?v=20261003-safari-link"></script>')
         code = re.search(r'<html lang="([^"]+)"', html).group(1)
         canonical = re.search(r'<link rel="canonical" href="([^"]+)"', html).group(1)
         html = html.replace('</head>', f'''  <meta property="og:type" content="website">
@@ -49,7 +49,7 @@ for page in output.rglob('*.html'):
   <meta name="twitter:card" content="summary">
 </head>''')
     elif page.name == 'android.html':
-        html = html.replace('</head>', '  <script defer src="/marketing.js?v=20261003-native-store"></script>\n</head>')
+        html = html.replace('</head>', '  <script defer src="/marketing.js?v=20261003-safari-link"></script>\n</head>')
     page.write_text(html)
 
 # A stable description link for mobile visitors who want to bypass routing.
@@ -63,6 +63,10 @@ urls = ['https://tfpmodels.app/' if code == 'en' else f'https://tfpmodels.app/{c
 sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 sitemap += '\n'.join(f'  <url><loc>{escape(url)}</loc></url>' for url in urls)
 (output / 'sitemap.xml').write_text(sitemap + '\n</urlset>\n')
+analytics = (output / 'analytics.js').read_text()
+analytics = analytics.replace("url.hostname === 'apps.apple.com'", "url.hostname === 'apps.apple.com' || link.matches('a[data-app-store]')")
+analytics = analytics.replace('link_url: url.origin + url.pathname,', "link_url: link.matches('a[data-app-store]') ? 'https://apps.apple.com/app/tfp-models/id6766621647' : url.origin + url.pathname,")
+(output / 'analytics.js').write_text(analytics)
 (output / 'README.md').write_text('''# TFP Models marketing site
 
 Published separately at https://tfpmodels.app using GitHub Pages, `main` / root.
@@ -72,8 +76,8 @@ The root displays the download page before routing iPhone browsers to the existi
 visitors to `/android.html`. Desktop and unrecognized devices see the landing
 page. Embedded iPhone browsers (including Threads and Instagram) keep the
 information visible and use the App Store button instead of an automatic store
-handoff. On iPhone, buttons attempt a direct native store link synchronously on
-a user tap. A separate HTTPS link and Safari instructions remain available.
+handoff. On iPhone, buttons use a clickable x-safari-https link to reopen the root
+in Safari, which then attempts the ordinary App Store handoff. A separate HTTPS link and Safari instructions remain available.
 Manual interaction cancels a pending automatic redirect.
 `/about.html` and `/?stay=1` bypass automatic routing.
 

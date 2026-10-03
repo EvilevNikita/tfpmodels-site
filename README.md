@@ -47,7 +47,8 @@ existing `www.tfpmodels.org` domain and publication unchanged.
   painted: ordinary iPhone/iPod browsers go to the existing App Store URL,
   Android goes to the local Android guide. Embedded iPhone browsers such as
   Threads and Instagram retain the page and use the App Store button, which
-  attempts a direct native store link on a user tap. An HTTPS fallback link and
+  uses a clickable x-safari-https link to reopen the root in Safari.
+  Safari then attempts the ordinary App Store handoff. An HTTPS fallback link and
   Safari instructions remain visible. A manual interaction cancels
   any pending auto-navigation. Desktop, iPad, unknown devices, and recognized
   social-preview bots retain the download page.

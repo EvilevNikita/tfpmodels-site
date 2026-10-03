@@ -114,22 +114,19 @@ function storeLinks() {
 const manualLinks = storeLinks();
 const manual = visit({ ua: safari + ' Threads', links: manualLinks }).finish();
 assert.equal(manual.attempts, 0);
-let prevented = false;
-manualLinks[0].click({ button: 0, preventDefault() { prevented = true; } });
-assert.equal(manual.destination, 'itms-apps://itunes.apple.com/app/id6766621647');
-assert.equal(prevented, true);
-assert.equal(manualLinks[1].href, apple);
-assert.equal(manualLinks[1].click, undefined, 'HTTPS fallback must remain ordinary navigation');
-const rejectedLinks = storeLinks();
-visit({ ua: safari + ' Threads', links: rejectedLinks, blocked: true }).finish();
-rejectedLinks[0].click({ button: 0, preventDefault() { throw new Error('Must allow HTTPS after a thrown rejection'); } });
+assert.equal(manualLinks[0].href, 'x-safari-https://tfpmodels.app/?safari=1&lang=en');
+assert.equal(manualLinks[1].href, apple, 'HTTPS fallback must remain ordinary navigation');
 for (const ua of ['Android', 'Desktop', 'facebookexternalhit iPhone']) {
   const anchors = storeLinks();
   visit({ ua, links: anchors }).finish();
-  assert.equal(anchors[0].click, undefined);
+  assert.equal(anchors[0].href, apple);
 }
-const modifiedLinks = storeLinks();
-const modified = visit({ ua: safari + ' Threads', links: modifiedLinks }).finish();
-modifiedLinks[0].click({ button: 0, metaKey: true });
-assert.equal(modified.attempts, 0);
-console.log('Manual store handoff passed: synchronous native navigation, HTTPS fallback, blocked scheme, modified clicks and device isolation.');
+const returnedLinks = storeLinks();
+const returned = visit({ ua: safari, url: 'https://tfpmodels.app/?safari=1&lang=ru', referrer: 'https://l.threads.net/', links: returnedLinks }).finish();
+assert.equal(returnedLinks[0].href, apple, 'Do not send Safari back to itself');
+assert.equal(returned.destination, apple, 'Safari must finish the store handoff even with a social referrer');
+assert.equal(visit({ ua: safari + ' Threads', url: 'https://tfpmodels.app/?safari=1' }).finish().attempts, 0, 'Explicit embedded browser markers still prevent automatic store navigation');
+const campaignLinks = storeLinks();
+visit({ ua: safari + ' Threads', url: 'https://tfpmodels.app/ru/?stay=1&utm_source=threads&redirect=https://evil.example', links: campaignLinks }).finish();
+assert.equal(campaignLinks[0].href, 'x-safari-https://tfpmodels.app/?safari=1&lang=en&utm_source=threads');
+console.log('Safari links passed: actual anchor href, normal HTTPS fallback, device isolation, campaign preservation, no Safari loop, and return-to-store navigation.');

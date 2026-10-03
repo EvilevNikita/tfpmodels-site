@@ -24,7 +24,7 @@
     socialReferrer = /(^|\.)(threads\.net|threads\.com|instagram\.com|facebook\.com|tiktok\.com)$/.test(new URL(document.referrer).hostname);
   } catch (_) { /* A direct visit has no referrer. */ }
   const embedded = /Instagram|Barcelona|Threads|FBAN|FBAV|TikTok|Bytedance|Line\/|Pinterest|Snapchat/i.test(ua)
-    || (iphone && (!/Safari|CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua) || socialReferrer));
+    || (iphone && (!/Safari|CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua) || (socialReferrer && params.get('safari') !== '1')));
   let destination;
   if (entry && params.get('stay') !== '1' && !preview) {
     if (iphone && !embedded) {
@@ -43,17 +43,17 @@
   // Keep campaign attribution when users choose Android or change language.
   // Store URLs are left untouched: Apple uses its own campaign parameters.
   function start() {
-    if (iphone && !preview) {
+    if (iphone && !preview && params.get('safari') !== '1') {
+      // Use an actual clickable Safari URL rather than a scripted store launch.
+      // Return to the root so Safari can finish the ordinary App Store redirect.
+      const target = new URL('/', location.href);
+      target.searchParams.set('safari', '1');
+      target.searchParams.set('lang', language);
+      for (const key of campaignKeys) {
+        if (params.has(key)) target.searchParams.set(key, params.get(key));
+      }
       for (const link of document.querySelectorAll('a[data-app-store]')) {
-        link.addEventListener('click', event => {
-          if (event.defaultPrevented || event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-          // Stay inside the user's tap: no popup, timer, or intermediate web page.
-          // Keep the HTTPS href for no-JS browsing, analytics, and the separate fallback.
-          try {
-            location.assign('itms-apps://itunes.apple.com/app/id6766621647');
-            event.preventDefault();
-          } catch (_) { /* Let the ordinary HTTPS link handle a rejected scheme. */ }
-        });
+        link.href = target.href.replace(/^https?:/, 'x-safari-https:');
       }
     }
     for (const link of document.querySelectorAll('a[href]')) {
