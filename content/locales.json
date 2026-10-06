@@ -26,7 +26,8 @@
         "Browse creators and castings",
         "Exchange messages in chat",
         "Send support and privacy requests"
-      ]
+      ],
+      "community": "Community rules and child safety"
     },
     "android": [
       "Install TFP Models on Android",
@@ -84,7 +85,8 @@
         "Находите моделей, фотографов и кастинги",
         "Обсуждайте съёмки в чате",
         "Обращайтесь в поддержку"
-      ]
+      ],
+      "community": "Правила сообщества и безопасность детей (на английском)"
     },
     "android": [
       "Установить TFP Models на Android",
@@ -162,7 +164,8 @@
         "Models, Fotografen und Castings entdecken",
         "Shootings im Chat besprechen",
         "Support kontaktieren"
-      ]
+      ],
+      "community": "Community-Regeln und Kinderschutz (Englisch)"
     },
     "consent": {
       "label": "Website-Analyse",
@@ -220,7 +223,8 @@
         "モデル、フォトグラファー、キャスティングの検索",
         "チャットで撮影の相談",
         "サポートへのお問い合わせ"
-      ]
+      ],
+      "community": "コミュニティルールと子どもの安全（英語）"
     },
     "consent": {
       "label": "サイトのアクセス解析",
@@ -258,7 +262,8 @@
         "Encuentra modelos, fotógrafos y castings",
         "Organiza sesiones por chat",
         "Contacta con soporte"
-      ]
+      ],
+      "community": "Normas de la comunidad y seguridad infantil (en inglés)"
     },
     "android": [
       "Instalar TFP Models en Android",
@@ -316,7 +321,8 @@
         "Trouvez des modèles, photographes et castings",
         "Organisez vos séances par messagerie",
         "Contactez l’assistance"
-      ]
+      ],
+      "community": "Règles de la communauté et sécurité des enfants (en anglais)"
     },
     "android": [
       "Installer TFP Models sur Android",
@@ -374,7 +380,8 @@
         "Trova modelli, fotografi e casting",
         "Organizza servizi fotografici in chat",
         "Contatta l’assistenza"
-      ]
+      ],
+      "community": "Regole della community e sicurezza dei minori (in inglese)"
     },
     "android": [
       "Installa TFP Models su Android",
@@ -432,7 +439,8 @@
         "모델, 포토그래퍼, 캐스팅 찾기",
         "채팅으로 촬영 논의",
         "고객 지원에 문의"
-      ]
+      ],
+      "community": "커뮤니티 규칙 및 아동 안전 (영어)"
     },
     "android": [
       "Android에 TFP Models 설치하기",
@@ -490,7 +498,8 @@
         "Znajduj modeli, fotografów i castingi",
         "Omawiaj sesje na czacie",
         "Kontaktuj się z pomocą techniczną"
-      ]
+      ],
+      "community": "Zasady społeczności i bezpieczeństwo dzieci (po angielsku)"
     },
     "android": [
       "Zainstaluj TFP Models na Androidzie",
@@ -548,7 +557,8 @@
         "Encontre modelos, fotógrafos e castings",
         "Combine ensaios pelo chat",
         "Entre em contato com o suporte"
-      ]
+      ],
+      "community": "Regras da comunidade e segurança infantil (em inglês)"
     },
     "android": [
       "Instalar o TFP Models no Android",
