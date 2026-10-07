@@ -16,8 +16,7 @@ The site's ten languages match the mobile app: `en`, `de`, `es`, `fr`, `it`,
   `/ja/` and `/pt-br/`. The Portuguese language tag remains `pt-BR`.
 - Homepages use explicit language links, self-canonical URLs, and reciprocal
   `hreflang` links. There is no automatic language redirect.
-- The Android guide honors `?lang=...`, then browser language, then English.
-  It remains `noindex` and is intentionally excluded from the sitemap.
+- The legacy Android guide redirects to Google Play, remains `noindex`, and is excluded from the sitemap.
 - Privacy, support, and community rules remain in English. Translated homepages
   label the English destinations accordingly.
 
@@ -43,12 +42,11 @@ GitHub Pages site with the custom domain `tfpmodels.app`; keep this repository's
 existing `www.tfpmodels.org` domain and publication unchanged.
 
 - Every localized homepage displays the page before attempting an ordinary HTTPS App Store
-  redirect on iPhone or routing Android to the local installation guide. Manual
+  redirect on iPhone or routing Android directly to Google Play. Manual
   interaction cancels the redirect. Desktop, iPad, bots,
   /about.html and ?stay=1 retain the page. Ordinary buttons remain available;
   no custom protocols or external-browser handoffs are used.
-- The Android guide retains all three closed-testing steps. Once Google Play
-  is publicly available, change the Android links in `templates/marketing-home.html`.
+- Android download links open Google Play directly. The legacy `/android.html` URL redirects to Google Play.
 - Download homepages on `.app` are indexable, with self-canonical URLs,
   reciprocal `.app` hreflang, localized social-preview metadata, and a sitemap.
   Android, legal pages, and the duplicate `/about.html` remain `noindex`.

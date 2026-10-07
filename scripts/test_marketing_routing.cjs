@@ -69,18 +69,20 @@ const denied = visit({ ua: safari, blocked: true }).finish();
 assert.equal(denied.attempts, 1);
 assert.equal(denied.destination, undefined, 'Blocked navigation must not crash the loaded page');
 assert.equal(visit({ ua: 'Mozilla/5.0 (Linux; Android 16) Chrome/143.0 Mobile', languages: ['ru-RU'] }).finish().destination,
-  'https://tfpmodels.app/android.html?lang=ru#ru');
+  'https://play.google.com/store/apps/details?id=tfpmodels.app');
 assert.equal(visit({ ua: 'Android Threads', languages: ['ru'] }).finish().destination,
-  'https://tfpmodels.app/android.html?lang=ru#ru');
+  'https://play.google.com/store/apps/details?id=tfpmodels.app');
 assert.equal(visit({ platform: 'Android', languages: ['pt-PT'] }).finish().destination,
-  'https://tfpmodels.app/android.html?lang=pt-BR#pt-BR');
+  'https://play.google.com/store/apps/details?id=tfpmodels.app');
 const destination = new URL(visit({ ua: 'Android', languages: ['de'], url: 'https://tfpmodels.app/?lang=ru&utm_source=instagram&utm_campaign=fall%20launch&redirect=https://evil.example' }).finish().destination);
-assert.equal(destination.pathname, '/android.html');
-assert.equal(destination.searchParams.get('lang'), 'ru');
-assert.equal(destination.searchParams.get('utm_source'), 'instagram');
-assert.equal(destination.searchParams.get('utm_campaign'), 'fall launch');
+assert.equal(destination.origin, 'https://play.google.com');
+assert.equal(destination.pathname, '/store/apps/details');
+assert.equal(destination.searchParams.get('id'), 'tfpmodels.app');
+assert.equal(destination.searchParams.has('lang'), false);
+assert.equal(destination.searchParams.has('utm_source'), false);
+assert.equal(destination.searchParams.has('utm_campaign'), false);
 assert.equal(destination.searchParams.has('redirect'), false);
-assert.equal(visit({ ua: 'Android', languages: ['zh-CN'] }).finish().destination, 'https://tfpmodels.app/android.html?lang=en#en');
+assert.equal(visit({ ua: 'Android', languages: ['zh-CN'] }).finish().destination, 'https://play.google.com/store/apps/details?id=tfpmodels.app');
 for (const ua of ['', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', 'Mozilla/5.0 (iPad; CPU OS 18_0)', 'facebookexternalhit/1.1 iPhone', 'Twitterbot Android']) {
   assert.equal(visit({ ua }).finish().attempts, 0);
 }
@@ -89,12 +91,12 @@ for (const url of ['https://www.tfpmodels.org/', 'https://tfpmodels.app/?stay=1'
 }
 assert.equal(visit({ ua: safari, url: 'https://www.tfpmodels.app/index.html' }).finish().destination, apple);
 const links = [
-  { href: 'https://tfpmodels.app/android.html?lang=en#en', matches: () => false },
+  { href: 'https://play.google.com/store/apps/details?id=tfpmodels.app', matches: () => false },
   { href: 'https://tfpmodels.app/', matches: () => true },
   { href: apple, matches: () => false },
 ];
 visit({ url: 'https://tfpmodels.app/?stay=1&utm_source=threads', links }).finish();
-assert.equal(new URL(links[0].href).searchParams.get('utm_source'), 'threads');
+assert.equal(links[0].href, 'https://play.google.com/store/apps/details?id=tfpmodels.app');
 assert.equal(new URL(links[1].href).searchParams.has('stay'), false, 'Language navigation must not disable routing');
 assert.equal(links[2].href, apple);
 console.log('Marketing routing passed: paint before navigation, iPhone social-browser attempt, manual cancellation, blocked navigation, devices, languages, UTM, bot previews, .org isolation.');
@@ -106,13 +108,13 @@ for (const code of ['en', 'de', 'es', 'fr', 'it', 'ja', 'ko', 'pl', 'pt-BR', 'ru
     const url = 'https://tfpmodels.app/' + prefix + suffix;
     assert.equal(visit({ ua: safari, url }).finish().destination, apple);
     assert.equal(visit({ ua: 'Android Telegram', url, languages: ['en-US'] }).finish().destination,
-      'https://tfpmodels.app/android.html?lang=' + code + '#' + code);
+      'https://play.google.com/store/apps/details?id=tfpmodels.app');
     assert.equal(visit({ ua: 'facebookexternalhit iPhone', url }).finish().attempts, 0);
   }
 }
 assert.equal(visit({ ua: 'Android', url: 'https://tfpmodels.app/ru/?lang=de&utm_source=telegram' }).finish().destination,
-  'https://tfpmodels.app/android.html?lang=de&utm_source=telegram#de');
+  'https://play.google.com/store/apps/details?id=tfpmodels.app');
 for (const url of ['https://tfpmodels.app/ru/?stay=1', 'https://tfpmodels.app/ru/android.html', 'https://tfpmodels.app/unknown/']) {
   assert.equal(visit({ ua: safari, url }).finish().attempts, 0);
 }
-console.log('All 10 localized homepages passed: iPhone/Android, localized guide, explicit language override, UTM and bot exclusions.');
+console.log('All 10 localized homepages passed: iPhone/Android, direct Google Play links, query isolation and bot exclusions.');

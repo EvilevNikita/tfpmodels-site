@@ -48,7 +48,6 @@ for code in CODES:
     locale = LOCALES[code]
     home = {**locale['home'], **OVERRIDES.get(code, {})}
     values = {key: escape(value) for key, value in home.items() if isinstance(value, str)}
-    values['android_intro'] = escape(locale['android'][1])
     values.update({f'feature_{i}': escape(value) for i, value in enumerate(locale['home']['features'])})
     links = [f'<link rel="canonical" href="{BASE}{home_path(code)}">']
     links += [f'<link rel="alternate" hreflang="{other}" href="{BASE}{home_path(other)}">' for other in CODES]
@@ -58,44 +57,7 @@ for code in CODES:
     output.parent.mkdir(exist_ok=True)
     output.write_text(home_template.substitute(values))
 
-steps = [
-    'https://groups.google.com/g/tfpmodels-android-testers',
-    'https://play.google.com/apps/testing/tfpmodels.app',
-    'https://play.google.com/store/apps/details?id=tfpmodels.app',
-]
-articles = []
-for code in CODES:
-    copy = LOCALES[code]['android']
-    assert len(copy) == 18, code
-    text = [escape(value) for value in copy]
-    cards = '\n'.join(f'''          <li class="card">
-            <h2>{text[6 + i * 3]}</h2>
-            <p>{text[7 + i * 3]}</p>
-            <a class="button button--primary" href="{url}">{text[8 + i * 3]}</a>
-          </li>''' for i, url in enumerate(steps))
-    help_text = text[17].replace('support@tfpmodels.org', '<a href="mailto:support@tfpmodels.org">support@tfpmodels.org</a>')
-    articles.append(f'''      <article class="translation" lang="{code}" id="{code}" aria-labelledby="title-{code}">
-        <header class="install-header">
-          <h1 id="title-{code}">{text[0]}</h1>
-          <p class="page-subtitle">{text[1]}</p>
-          <h2>{text[2]}</h2>
-          <p>{text[3]}</p>
-        </header>
-        <aside class="install-note">
-          <h2>{text[4]}</h2>
-          <p>{text[5]}</p>
-        </aside>
-        <ol class="install-steps" role="list">
-{cards}
-        </ol>
-        <section class="install-help">
-          <h2>{text[15]}</h2>
-          <p>{text[16]}</p>
-          <p>{help_text}</p>
-        </section>
-      </article>''')
-android_template = Template((ROOT / 'templates/android.html').read_text())
-(OUTPUT / 'android.html').write_text(android_template.substitute(picker=picker('en', android=True), articles='\n'.join(articles)))
+(OUTPUT / 'android.html').write_text((ROOT / 'templates/android.html').read_text())
 
 client_locales = {code: {key: LOCALES[code][key] for key in ['name', 'language', 'consent']} for code in CODES}
 runtime = (ROOT / 'templates/languages.js').read_text().replace('__LOCALES__', json.dumps(client_locales, ensure_ascii=False, indent=2))

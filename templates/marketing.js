@@ -5,19 +5,10 @@
   const params = new URLSearchParams(location.search);
   const campaignKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'utm_id'];
   const supported = ['en', 'de', 'es', 'fr', 'it', 'ja', 'ko', 'pl', 'pt-BR', 'ru'];
-  const match = value => {
-    const normalized = (value || '').toLowerCase();
-    return supported.find(code => code.toLowerCase() === normalized)
-      || supported.find(code => code.split('-')[0] === normalized.split('-')[0]);
-  };
   const pathLanguage = supported.find(code => {
     const prefix = '/' + code.toLowerCase();
     return [prefix, prefix + '/', prefix + '/index.html'].includes(location.pathname);
   });
-  const language = match(params.get('lang'))
-    || pathLanguage
-    || (navigator.languages || [navigator.language]).map(match).find(Boolean)
-    || 'en';
   const ua = navigator.userAgent || '';
   const preview = /bot|crawler|spider|facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|TelegramBot/i.test(ua);
   const entry = location.pathname === '/' || location.pathname === '/index.html' || Boolean(pathLanguage);
@@ -27,18 +18,12 @@
     if (iphone) {
       destination = 'https://apps.apple.com/app/tfp-models/id6766621647';
     } else if (/Android/i.test(ua) || navigator.userAgentData?.platform === 'Android') {
-      const target = new URL('/android.html', location.href);
-      target.searchParams.set('lang', language);
-      for (const key of campaignKeys) {
-        if (params.has(key)) target.searchParams.set(key, params.get(key));
-      }
-      target.hash = language;
-      destination = target.href;
+      destination = 'https://play.google.com/store/apps/details?id=tfpmodels.app';
     }
   }
 
-  // Keep campaign attribution when users choose Android or change language.
-  // Store URLs are left untouched: Apple uses its own campaign parameters.
+  // Keep campaign attribution on internal navigation.
+  // Store URLs are left untouched.
   function start() {
     for (const link of document.querySelectorAll('a[href]')) {
       const url = new URL(link.href, location.href);
