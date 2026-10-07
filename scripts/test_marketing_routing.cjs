@@ -118,3 +118,22 @@ for (const url of ['https://tfpmodels.app/ru/?stay=1', 'https://tfpmodels.app/ru
   assert.equal(visit({ ua: safari, url }).finish().attempts, 0);
 }
 console.log('All 10 localized homepages passed: iPhone/Android, direct Google Play links, query isolation and bot exclusions.');
+
+// Previously shared Android guide links must also work when opened on iOS.
+const legacyHtml = fs.readFileSync(path.join(__dirname, '../templates/android.html'), 'utf8');
+assert.equal(/http-equiv="refresh"/i.test(legacyHtml), false, 'No unconditional refresh may override the device choice');
+const legacyScript = legacyHtml.match(/<script>([\s\S]*?)<\/script>/)[1];
+for (const [navigator, expected] of [
+  [{ userAgent: safari }, apple],
+  [{ userAgent: safari + ' Instagram' }, apple],
+  [{ userAgent: 'iPhone Telegram' }, apple],
+  [{ userAgent: 'iPad' }, apple],
+  [{ userAgent: 'Macintosh', platform: 'MacIntel', maxTouchPoints: 5 }, apple],
+  [{ userAgent: 'Android' }, 'https://play.google.com/store/apps/details?id=tfpmodels.app'],
+  [{ userAgent: 'Windows' }, 'https://play.google.com/store/apps/details?id=tfpmodels.app'],
+]) {
+  let actual;
+  vm.runInNewContext(legacyScript, { navigator, location: { replace: url => { actual = url; } } });
+  assert.equal(actual, expected);
+}
+console.log('Legacy download links passed: iPhone, social browsers, iPad and Android.');
