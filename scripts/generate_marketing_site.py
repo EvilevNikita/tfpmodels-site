@@ -26,7 +26,8 @@ marketing = json.loads((ROOT / 'content/marketing-locales.json').read_text())
 assets = [
     'styles.css', 'android.css', 'android.js', 'analytics.css', 'analytics.js',
     'favicon.png', 'apple-touch-icon.png', 'privacy.html', 'support.html',
-    'community-guidelines.html', '.nojekyll',
+    'community-guidelines.html', 'privacy-2026-09-24.html',
+    'community-guidelines-2026-09-06.html', '.nojekyll',
 ]
 for asset in assets:
     shutil.copyfile(ROOT / asset, output / asset)
